@@ -1,5 +1,10 @@
 #pragma once
+// If we are not building for AVR architectures ignore PROGMEM
+#if defined(__AVR__)
 #include <avr/pgmspace.h>
+#else
+#define PROGMEM
+#endif
 
 namespace Nokia_LCD_Fonts {
 const uint8_t kColumns_per_character = 5;

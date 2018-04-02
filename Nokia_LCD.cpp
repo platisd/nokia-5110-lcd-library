@@ -1,5 +1,12 @@
-#include "Nokia_LCD.h"
+#pragma once
+// If we are not building for AVR architectures ignore PROGMEM
+#if defined(__AVR__)
 #include <avr/pgmspace.h>
+#else
+#define PROGMEM
+#define pgm_read_byte_near *
+#endif
+#include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
 
 namespace {
@@ -74,7 +81,12 @@ void Nokia_LCD::print(const char *string) {
     }
 }
 
-void Nokia_LCD::print(String string) {}
+void Nokia_LCD::print(String string) {
+    for (unsigned char character : string) {
+        draw(Nokia_LCD_Fonts::ASCII[character - 0x20],
+             Nokia_LCD_Fonts::kColumns_per_character, true);
+    }
+}
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_size,
