@@ -74,7 +74,7 @@ void Nokia_LCD::print(const char *string) {
     }
 }
 
-bool Nokia_LCD::print(String string) {}
+void Nokia_LCD::print(String string) {}
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_size,
