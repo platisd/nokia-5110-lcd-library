@@ -71,7 +71,16 @@ void Nokia_LCD::clear(bool is_black) {
     setCursor(0, 0);
 }
 
-bool Nokia_LCD::print(const char *string) {}
+void Nokia_LCD::print(const char *string) {
+    const char kNull_char = '\0';
+    unsigned int index = 0;
+
+    while (*(string + index) != kNull_char) {
+        unsigned char character = *(string + index++);
+        draw(Nokia_LCD_Fonts::ASCII[character - 0x20],
+             Nokia_LCD_Fonts::kColumns_per_character, true);
+    }
+}
 
 bool Nokia_LCD::print(String string) {}
 

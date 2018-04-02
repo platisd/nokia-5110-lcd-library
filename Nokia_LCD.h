@@ -65,10 +65,9 @@ public:
     /**
      * Prints the supplied string starting at the current cursor location.
      * @param  string The string to be printed on the display
-     * @return        True if out of bounds error | False otherwise
      */
-    bool print(const char *string);
-    bool print(String string);
+    void print(const char *string);
+    void print(String string);
 
     /**
      * Draws the supplied bitmap on the screen starting at the current cursor

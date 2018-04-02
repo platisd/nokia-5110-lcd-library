@@ -1,12 +1,16 @@
 #pragma once
+#include <avr/pgmspace.h>
 
 namespace Nokia_LCD_Fonts {
+const uint8_t kColumns_per_character = 5;
+const uint8_t kRows_per_character = 8;
+
 /* Font table:
 This table contains the hex values that represent pixels for a
 font that is 5 pixels wide and 8 pixels high. Each byte in a row
 represents one, 8-pixel, vertical column of a character. 5 bytes
 per character. */
-const unsigned char ASCII[][5] = {
+const unsigned char ASCII[][kColumns_per_character] PROGMEM = {
     // First 32 characters (0x00-0x19) are ignored. These are
     // non-displayable, control characters.
     {0x00, 0x00, 0x00, 0x00, 0x00}  // 0x20
