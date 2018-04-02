@@ -232,3 +232,7 @@ bool Nokia_LCD::print(const char *string) {}
 bool Nokia_LCD::print(String string) {}
 
 bool Nokia_LCD::draw(const unsigned char *bitmap, const uint8_t bitmap_size) {}
+
+void Nokia_LCD::sendCommand(const unsigned char command) {}
+
+void Nokia_LCD::sendData(const unsigned char data) {}

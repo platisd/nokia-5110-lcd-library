@@ -1,3 +1,9 @@
+/**
+ * This work is heavily inspired by Jim Lindblom's work, from Sparkfun. The main
+ * goal was to decrease its size so it can be ran on ATTiny microcontrollers
+ * that have limited RAM size. The original library can be found on Sparkfun's
+ * GitHub repository: https://github.com/sparkfun/GraphicLCD_Nokia_5110
+ */
 #include <Arduino.h>
 #include <stdint.h>
 
@@ -73,6 +79,18 @@ class Nokia_LCD {
      * @return             True if out of bounds error | False otherwise
      */
     bool draw(const unsigned char *bitmap, const uint8_t bitmap_size);
+
+    /**
+     * Sends the specified byte as a command to the display.
+     * @param command The byte to be sent as a command.
+     */
+    void sendCommand(const unsigned char command);
+
+    /**
+     * Sends the specified byte as (presentable) data to the display.
+     * @param data  The byte to be sent as presentable data.
+     */
+    void sendData(const unsigned char data);
 
    private:
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
