@@ -1,8 +1,12 @@
 /**
- * This work is heavily inspired by Jim Lindblom's work, from Sparkfun. The main
- * goal was to decrease its size so it can be ran on ATTiny microcontrollers
- * that have limited RAM size. The original library can be found on Sparkfun's
- * GitHub repository: https://github.com/sparkfun/GraphicLCD_Nokia_5110
+ * A library to control the monochrome LCD displays found on Nokia 5110.
+ *
+ * It is a derivative of Jim Lindblom's work, from Sparkfun. The goal
+ * was to decrease its size so it can be ran on ATTiny microcontrollers
+ * that have limited RAM size. Therefore, the main difference is that a
+ * framebuffer, which would consume all dynamic memory, is not used.
+ * The original library can be found on Sparkfun's GitHub repository:
+ * https://github.com/sparkfun/GraphicLCD_Nokia_5110
  */
 #pragma once
 #include <Arduino.h>
