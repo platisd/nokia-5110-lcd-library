@@ -82,6 +82,18 @@ void Nokia_LCD::clear(bool is_black) {
     setCursor(0, 0);
 }
 
+bool Nokia_LCD::println(const char *string) {
+    bool out_of_bounds = print(string);
+
+    return print("\n") || out_of_bounds;
+}
+
+bool Nokia_LCD::println(String string) {
+    bool out_of_bounds = print(string);
+
+    return print("\n") || out_of_bounds;
+}
+
 bool Nokia_LCD::print(const char *string) {
     const char kNull_char = '\0';
     unsigned int index = 0;
@@ -89,9 +101,7 @@ bool Nokia_LCD::print(const char *string) {
     bool out_of_bounds = false;
     while (*(string + index) != kNull_char) {
         unsigned char character = *(string + index++);
-        out_of_bounds = draw(Nokia_LCD_Fonts::ASCII[character - 0x20],
-                             Nokia_LCD_Fonts::kColumns_per_character, true) ||
-                        out_of_bounds;
+        out_of_bounds = printCharacter(character) || out_of_bounds;
     }
 
     return out_of_bounds;
@@ -100,12 +110,27 @@ bool Nokia_LCD::print(const char *string) {
 bool Nokia_LCD::print(String string) {
     bool out_of_bounds = false;
     for (unsigned char character : string) {
-        out_of_bounds = draw(Nokia_LCD_Fonts::ASCII[character - 0x20],
-                             Nokia_LCD_Fonts::kColumns_per_character, true) ||
-                        out_of_bounds;
+        out_of_bounds = printCharacter(character) || out_of_bounds;
     }
 
     return out_of_bounds;
+}
+
+bool Nokia_LCD::printCharacter(const unsigned char character) {
+    const unsigned char new_line = '\n';
+
+    // If there is a new line character, we only need to change row
+    if (character == new_line) {
+        mX_cursor = 0;  // Go back to the beginning of the columns
+        mY_cursor = (mY_cursor + 1) % kTotal_rows;
+        setCursor(mX_cursor, mY_cursor);  // Set the new cursor position
+
+        // If we went back to row 0, return an out-of-bounds error
+        return mY_cursor == 0;
+    }
+
+    return draw(Nokia_LCD_Fonts::ASCII[character - 0x20],
+                Nokia_LCD_Fonts::kColumns_per_character, true);
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],

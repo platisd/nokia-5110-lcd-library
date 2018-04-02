@@ -73,6 +73,16 @@ public:
     bool print(String string);
 
     /**
+     * Prints the supplied string starting at the current cursor location and
+     * goes to the next line. The text will overflow by starting from the
+     * beginning if it exceeds the size of the display.
+     * @param  string The string to be printed on the display
+     * @return        True if out of bounds error | False otherwise
+     */
+    bool println(const char *string);
+    bool println(String string);
+
+    /**
      * Draws the supplied bitmap on the screen starting at the current cursor
      * location. The bitmap can contain up to 504 bits which is the amount of
      * pixels in the display. The bitmap will overflow by starting from the
@@ -111,6 +121,13 @@ private:
      * @return         True if out of bounds error | False otherwise
      */
     bool send(const unsigned char lcd_byte, const bool is_data);
+
+    /**
+     * Prints the specified character
+     * @param  character The character to be printed
+     * @return           True if out of bounds error | False otherwise
+     */
+    bool printCharacter(const unsigned char character);
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
     uint8_t mX_cursor, mY_cursor;
