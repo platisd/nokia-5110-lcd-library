@@ -4,6 +4,7 @@
  * that have limited RAM size. The original library can be found on Sparkfun's
  * GitHub repository: https://github.com/sparkfun/GraphicLCD_Nokia_5110
  */
+#pragma once
 #include <Arduino.h>
 #include <stdint.h>
 
@@ -43,13 +44,13 @@ public:
     bool setCursor(uint8_t x, uint8_t y);
 
     /**
-     * Gets the position of the cursor on the x-axis.
+     * Gets the position of the cursor (as supplied by the user) on the x-axis.
      * @return Position of the cursor on the x-axis
      */
     uint8_t getX();
 
     /**
-     * Gets the position of the cursor on the y-axis.
+     * Gets the position of the cursor (as supplied by the user) on the y-axis.
      * @return Position of the cursor on the y-axis
      */
     uint8_t getY();
@@ -57,9 +58,9 @@ public:
     /**
      * Clears the screen with the supplied color (defaults to white). The cursor
      * shall return to position (0,0).
-     * @param white The screen color after it is cleared. Default is white.
+     * @param is_black The screen color after it is cleared. Default is white.
      */
-    void clear(bool white = true);
+    void clear(bool is_black = false);
 
     /**
      * Prints the supplied string starting at the current cursor location.
@@ -80,7 +81,7 @@ public:
      * @param  bitmap_size The size of the bitmap to be displayed up to 504 bits
      * @return             True if out of bounds error | False otherwise
      */
-    bool draw(const unsigned char *bitmap, const uint8_t bitmap_size);
+    bool draw(const unsigned char bitmap[], const unsigned int bitmap_size);
 
     /**
      * Sends the specified byte as a command to the display.
@@ -96,12 +97,13 @@ public:
 
 private:
     /**
-     * Sends the specified byte to the LCD via software SPI as data or a command.
+     * Sends the specified byte to the LCD via software SPI as data or a
+     * command.
      * @param lcd_byte The byte to be send to the LCD
      * @param is_data  Whether the byte to be send is data (or a command)
      */
     void send(const unsigned char lcd_byte, const bool is_data);
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
-    uint8_t xCursor, yCursor;
+    uint8_t mXcursor, mYcursor;
 };

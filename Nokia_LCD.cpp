@@ -3,7 +3,7 @@
 namespace {
 const uint8_t kDisplay_max_width = 84;
 const uint8_t kDisplay_max_height = 48;
-const uint8_t kTotal_bits = (kDisplay_max_width * kDisplay_max_height) / 8;
+const unsigned int kTotal_bits = kDisplay_max_width * kDisplay_max_height / 8;
 
 /* Font table:
 This table contains the hex values that represent pixels for a
@@ -214,7 +214,9 @@ Nokia_LCD::Nokia_LCD(uint8_t clk_pin, uint8_t din_pin, uint8_t dc_pin,
       kDin_pin{din_pin},
       kDc_pin{dc_pin},
       kCe_pin{ce_pin},
-      kRst_pin{rst_pin} {}
+      kRst_pin{rst_pin},
+      mXcursor{0},
+      mYcursor{0} {}
 
 void Nokia_LCD::begin() {
     pinMode(kClk_pin, OUTPUT);
@@ -227,19 +229,19 @@ void Nokia_LCD::begin() {
     digitalWrite(kRst_pin, LOW);
     digitalWrite(kRst_pin, HIGH);
 
-    sendCommand(0x21); // Tell LCD extended commands follow
-    sendCommand(0xB0); // Set LCD Vop (Contrast)
-    sendCommand(0x04); // Set Temp coefficent
-    sendCommand(0x14); // LCD bias mode 1:48 (try 0x13)
+    sendCommand(0x21);  // Tell LCD extended commands follow
+    sendCommand(0xB0);  // Set LCD Vop (Contrast)
+    sendCommand(0x04);  // Set Temp coefficent
+    sendCommand(0x14);  // LCD bias mode 1:48 (try 0x13)
     // We must send 0x20 before modifying the display control mode
     sendCommand(0x20);
-    sendCommand(0x0C); // Set display control, normal mode.
+    sendCommand(0x0C);  // Set display control, normal mode.
 }
 
 void Nokia_LCD::setContrast(uint8_t contrast) {
-    sendCommand(0x21); // Tell LCD that extended commands follow
-    sendCommand(0x80 | contrast); // Set LCD Vop (Contrast)
-    sendCommand(0x20); // Set display mode
+    sendCommand(0x21);             // Tell LCD that extended commands follow
+    sendCommand(0x80 | contrast);  // Set LCD Vop (Contrast)
+    sendCommand(0x20);             // Set display mode
 }
 
 bool Nokia_LCD::setCursor(uint8_t x, uint8_t y) {
@@ -247,37 +249,42 @@ bool Nokia_LCD::setCursor(uint8_t x, uint8_t y) {
         return false;
     }
 
-    xCursor = x;
-    yCursor = y;
-    sendCommand(0x80 | xCursor); // Column
-    sendCommand(0x40 | yCursor); // Row
+    mXcursor = x;
+    mYcursor = y;
+    sendCommand(0x80 | mXcursor);  // Column
+    sendCommand(0x40 | mYcursor);  // Row
 
     return true;
 }
 
-uint8_t Nokia_LCD::getX() {
-    return xCursor;
-}
+uint8_t Nokia_LCD::getX() { return mXcursor; }
 
-uint8_t Nokia_LCD::getY() {
-    return yCursor;
-}
+uint8_t Nokia_LCD::getY() { return mYcursor; }
 
-void Nokia_LCD::clear(bool white) {}
+void Nokia_LCD::clear(bool is_black) {
+    setCursor(0, 0);
+    for (unsigned int i = 0; i < kTotal_bits; i++) {
+        sendData(is_black);
+    }
+    setCursor(0, 0);
+}
 
 bool Nokia_LCD::print(const char *string) {}
 
 bool Nokia_LCD::print(String string) {}
 
-bool Nokia_LCD::draw(const unsigned char *bitmap, const uint8_t bitmap_size) {}
+bool Nokia_LCD::draw(const unsigned char bitmap[], const unsigned int bitmap_size) {
+    for (unsigned int i = 0; i < bitmap_size && i < kTotal_bits; i++) {
+        sendData(bitmap[i]);
+    }
+    return bitmap_size >= kTotal_bits;
+}
 
 void Nokia_LCD::sendCommand(const unsigned char command) {
     send(command, false);
 }
 
-void Nokia_LCD::sendData(const unsigned char data) {
-    send(data, true);
-}
+void Nokia_LCD::sendData(const unsigned char data) { send(data, true); }
 
 void Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
     // Tell the LCD that we are writing either to data or a command
