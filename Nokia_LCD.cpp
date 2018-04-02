@@ -1,6 +1,6 @@
 #include "Nokia_LCD.h"
-#include "Nokia_LCD_Fonts.h"
 #include <avr/pgmspace.h>
+#include "Nokia_LCD_Fonts.h"
 
 namespace {
 const uint8_t kDisplay_max_width = 84;
@@ -14,9 +14,7 @@ Nokia_LCD::Nokia_LCD(uint8_t clk_pin, uint8_t din_pin, uint8_t dc_pin,
       kDin_pin{din_pin},
       kDc_pin{dc_pin},
       kCe_pin{ce_pin},
-      kRst_pin{rst_pin},
-      mXcursor{0},
-      mYcursor{0} {}
+      kRst_pin{rst_pin} {}
 
 void Nokia_LCD::begin() {
     pinMode(kClk_pin, OUTPUT);
@@ -49,17 +47,11 @@ bool Nokia_LCD::setCursor(uint8_t x, uint8_t y) {
         return false;
     }
 
-    mXcursor = x;
-    mYcursor = y;
-    sendCommand(0x80 | mXcursor);  // Column
-    sendCommand(0x40 | mYcursor);  // Row
+    sendCommand(0x80 | x);  // Column
+    sendCommand(0x40 | y);  // Row
 
     return true;
 }
-
-uint8_t Nokia_LCD::getX() { return mXcursor; }
-
-uint8_t Nokia_LCD::getY() { return mYcursor; }
 
 void Nokia_LCD::clear(bool is_black) {
     setCursor(0, 0);

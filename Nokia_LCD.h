@@ -44,18 +44,6 @@ public:
     bool setCursor(uint8_t x, uint8_t y);
 
     /**
-     * Gets the position of the cursor (as supplied by the user) on the x-axis.
-     * @return Position of the cursor on the x-axis
-     */
-    uint8_t getX();
-
-    /**
-     * Gets the position of the cursor (as supplied by the user) on the y-axis.
-     * @return Position of the cursor on the y-axis
-     */
-    uint8_t getY();
-
-    /**
      * Clears the screen with the supplied color (defaults to white). The cursor
      * shall return to position (0,0).
      * @param is_black The screen color after it is cleared. Default is white.
@@ -108,5 +96,4 @@ private:
     void send(const unsigned char lcd_byte, const bool is_data);
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
-    uint8_t mXcursor, mYcursor;
 };
