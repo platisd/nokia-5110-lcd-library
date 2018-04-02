@@ -1,4 +1,5 @@
 #include "Nokia_LCD.h"
+#include <avr/pgmspace.h>
 
 namespace {
 const uint8_t kDisplay_max_width = 84;
@@ -263,8 +264,10 @@ uint8_t Nokia_LCD::getY() { return mYcursor; }
 
 void Nokia_LCD::clear(bool is_black) {
     setCursor(0, 0);
+    unsigned char color = is_black ? 255 : 0;
+
     for (unsigned int i = 0; i < kTotal_bits; i++) {
-        sendData(is_black);
+        sendData(color);
     }
     setCursor(0, 0);
 }
@@ -273,9 +276,13 @@ bool Nokia_LCD::print(const char *string) {}
 
 bool Nokia_LCD::print(String string) {}
 
-bool Nokia_LCD::draw(const unsigned char bitmap[], const unsigned int bitmap_size) {
+bool Nokia_LCD::draw(const unsigned char bitmap[],
+                     const unsigned int bitmap_size,
+                     const bool read_from_progmem) {
     for (unsigned int i = 0; i < bitmap_size && i < kTotal_bits; i++) {
-        sendData(bitmap[i]);
+        unsigned char pixel =
+            read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
+        sendData(pixel);
     }
     return bitmap_size >= kTotal_bits;
 }

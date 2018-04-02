@@ -77,11 +77,15 @@ public:
      * not exceed the size of the display.
      * If you want the bitmap to cover the whole screen, don't forget to set the
      * cursor at (0,0) before calling this function.
-     * @param  bitmap      The bitmap to be displayed
-     * @param  bitmap_size The size of the bitmap to be displayed up to 504 bits
-     * @return             True if out of bounds error | False otherwise
+     * @param  bitmap            The bitmap to be displayed
+     * @param  bitmap_size       The size of the bitmap to be displayed up to
+     *                           504 bits
+     * @param read_from_progmem  Whether the bitmap is stored in flash memory
+     *                           instead of SRAM
+     * @return                   True if out of bounds error | False otherwise
      */
-    bool draw(const unsigned char bitmap[], const unsigned int bitmap_size);
+    bool draw(const unsigned char bitmap[], const unsigned int bitmap_size,
+              const bool read_from_progmem = false);
 
     /**
      * Sends the specified byte as a command to the display.
