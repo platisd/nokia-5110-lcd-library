@@ -29,7 +29,7 @@ public:
 
     /**
      * Sets the contrast on the LCD screen
-     * @param contrast Contrast value between 40 and 60
+     * @param contrast Contrast value between 40 and 60 is usually good
      */
     void setContrast(uint8_t contrast);
 
@@ -56,7 +56,7 @@ public:
 
     /**
      * Clears the screen with the supplied color (defaults to white). The cursor
-     * shall remain at its previous position.
+     * shall return to position (0,0).
      * @param white The screen color after it is cleared. Default is white.
      */
     void clear(bool white = true);
@@ -74,6 +74,8 @@ public:
      * location. The bitmap can contain up to 504 bits which is the amount of
      * pixels in the display. The bitmap will be printed out as long as it does
      * not exceed the size of the display.
+     * If you want the bitmap to cover the whole screen, don't forget to set the
+     * cursor at (0,0) before calling this function.
      * @param  bitmap      The bitmap to be displayed
      * @param  bitmap_size The size of the bitmap to be displayed up to 504 bits
      * @return             True if out of bounds error | False otherwise
@@ -93,5 +95,13 @@ public:
     void sendData(const unsigned char data);
 
 private:
-    void const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
+    /**
+     * Sends the specified byte to the LCD via software SPI as data or a command.
+     * @param lcd_byte The byte to be send to the LCD
+     * @param is_data  Whether the byte to be send is data (or a command)
+     */
+    void send(const unsigned char lcd_byte, const bool is_data);
+
+    const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
+    uint8_t xCursor, yCursor;
 };
