@@ -8,7 +8,7 @@
 #include <stdint.h>
 
 class Nokia_LCD {
-   public:
+public:
     /**
      * Nokia_LCD constructor where the pins connected to the display are
      * defined.
@@ -92,6 +92,6 @@ class Nokia_LCD {
      */
     void sendData(const unsigned char data);
 
-   private:
-    const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
+private:
+    void const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
 };
