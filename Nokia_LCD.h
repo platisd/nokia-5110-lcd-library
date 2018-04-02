@@ -44,6 +44,18 @@ public:
     bool setCursor(uint8_t x, uint8_t y);
 
     /**
+     * Returns the current cursor position on the x-axis
+     * @return The current cursor position on the x-axis
+     */
+    uint8_t getCursorX();
+
+    /**
+     * Returns the current cursor position on the y-axis
+     * @return The current cursor position on the y-axis
+     */
+    uint8_t getCursorY();
+
+    /**
      * Clears the screen with the supplied color (defaults to white). The cursor
      * shall return to position (0,0).
      * @param is_black The screen color after it is cleared. Default is white.
@@ -51,17 +63,20 @@ public:
     void clear(bool is_black = false);
 
     /**
-     * Prints the supplied string starting at the current cursor location.
+     * Prints the supplied string starting at the current cursor location. The
+     * text will overflow by starting from the beginning if it exceeds the size
+     * of the display.
      * @param  string The string to be printed on the display
+     * @return        True if out of bounds error | False otherwise
      */
-    void print(const char *string);
-    void print(String string);
+    bool print(const char *string);
+    bool print(String string);
 
     /**
      * Draws the supplied bitmap on the screen starting at the current cursor
      * location. The bitmap can contain up to 504 bits which is the amount of
-     * pixels in the display. The bitmap will be printed out as long as it does
-     * not exceed the size of the display.
+     * pixels in the display. The bitmap will overflow by starting from the
+     * beginning if it exceeds the size of the display.
      * If you want the bitmap to cover the whole screen, don't forget to set the
      * cursor at (0,0) before calling this function.
      * @param  bitmap            The bitmap to be displayed
@@ -83,8 +98,9 @@ public:
     /**
      * Sends the specified byte as (presentable) data to the display.
      * @param data  The byte to be sent as presentable data.
+     * @return      True if out of bounds error | False otherwise
      */
-    void sendData(const unsigned char data);
+    bool sendData(const unsigned char data);
 
 private:
     /**
@@ -92,8 +108,10 @@ private:
      * command.
      * @param lcd_byte The byte to be send to the LCD
      * @param is_data  Whether the byte to be send is data (or a command)
+     * @return         True if out of bounds error | False otherwise
      */
-    void send(const unsigned char lcd_byte, const bool is_data);
+    bool send(const unsigned char lcd_byte, const bool is_data);
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
+    uint8_t mX_cursor, mY_cursor;
 };
