@@ -74,7 +74,7 @@ public:
      * @return        True if out of bounds error | False otherwise
      */
     bool print(const char *string);
-    bool print(String string);
+    bool print(const String &string);
 
     /**
      * Prints the supplied string starting at the current cursor location and
@@ -84,7 +84,7 @@ public:
      * @return        True if out of bounds error | False otherwise
      */
     bool println(const char *string);
-    bool println(String string);
+    bool println(const String &string);
 
     /**
      * Draws the supplied bitmap on the screen starting at the current cursor

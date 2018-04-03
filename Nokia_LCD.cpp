@@ -88,7 +88,7 @@ bool Nokia_LCD::println(const char *string) {
     return print("\n") || out_of_bounds;
 }
 
-bool Nokia_LCD::println(String string) {
+bool Nokia_LCD::println(const String &string) {
     bool out_of_bounds = print(string);
 
     return print("\n") || out_of_bounds;
@@ -107,7 +107,7 @@ bool Nokia_LCD::print(const char *string) {
     return out_of_bounds;
 }
 
-bool Nokia_LCD::print(String string) {
+bool Nokia_LCD::print(const String &string) {
     bool out_of_bounds = false;
     for (unsigned char character : string) {
         out_of_bounds = printCharacter(character) || out_of_bounds;
