@@ -1,0 +1,12 @@
+Nokia_LCD	KEYWORD1
+begin	KEYWORD2
+setContrast	KEYWORD2
+setCursor	KEYWORD2
+getCursorX	KEYWORD2
+getCursorY	KEYWORD2
+clear	KEYWORD2
+print	KEYWORD2
+println	KEYWORD2
+draw	KEYWORD2
+sendCommand	KEYWORD2
+sendData	KEYWORD2
