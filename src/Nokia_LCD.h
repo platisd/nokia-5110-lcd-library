@@ -42,9 +42,10 @@ public:
 
     /**
      * Sets the display "cursor" at the specified position so we can draw from
-     * that point.
-     * @param  x Coordinates on the x-axis, can be between 0 and 84
-     * @param  y Coordinates on the y-axis, can be between 0 and 48
+     * that point. If an invalid cursor position is supplied, an out-of-bounds
+     * error will be returned and the cursor position will not be updated.
+     * @param  x Coordinates on the x-axis, can be between 0 and 83
+     * @param  y Coordinates on the y-axis, can be between 0 and 5
      * @return   True if out of bounds error | False otherwise
      */
     bool setCursor(uint8_t x, uint8_t y);
