@@ -81,6 +81,7 @@ public:
     bool print(unsigned int number);
     bool print(long number);
     bool print(unsigned long number);
+
     /**
      * Prints the supplied element starting at the current cursor location and
      * goes to the next line. The text will overflow by starting from the
