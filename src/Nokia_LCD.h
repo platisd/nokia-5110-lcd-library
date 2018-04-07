@@ -99,6 +99,10 @@ public:
      * beginning if it exceeds the size of the display.
      * If you want the bitmap to cover the whole screen, don't forget to set the
      * cursor at (0,0) before calling this function.
+     * The *byte orientation* should be **vertical** for this function to
+     * provide the desirable result. I got this to work using the
+     * `LCD Assistant` utility. For more information and resources please refer
+     * to the [Sparkfun Graphic LCD Hookup Guide](https://bit.ly/2IBTtGj).
      * @param  bitmap            The bitmap to be displayed
      * @param  bitmap_size       The size of the bitmap to be displayed up to
      *                           504 bits
