@@ -15,7 +15,7 @@ This table contains the hex values that represent pixels for a
 font that is 5 pixels wide and 8 pixels high. Each byte in a row
 represents one, 8-pixel, vertical column of a character. 5 bytes
 per character. */
-const unsigned char ASCII[][kColumns_per_character] PROGMEM = {
+const unsigned char kDefault_font[][kColumns_per_character] PROGMEM = {
     // First 32 characters (0x00-0x19) are ignored. These are
     // non-displayable, control characters.
     {0x00, 0x00, 0x00, 0x00, 0x00}  // 0x20

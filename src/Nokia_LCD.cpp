@@ -132,7 +132,7 @@ bool Nokia_LCD::printCharacter(const unsigned char character) {
         return mY_cursor == 0;
     }
 
-    return draw(Nokia_LCD_Fonts::ASCII[character - 0x20],
+    return draw(Nokia_LCD_Fonts::kDefault_font[character - 0x20],
                 Nokia_LCD_Fonts::kColumns_per_character, true);
 }
 
