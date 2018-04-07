@@ -6,6 +6,7 @@
 #define PROGMEM
 #define pgm_read_byte_near *
 #endif
+#include <math.h>
 #include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
 
@@ -17,6 +18,7 @@ const unsigned int kTotal_rows =
     kDisplay_max_height / Nokia_LCD_Fonts::kRows_per_character;
 const unsigned int kTotal_columns = kDisplay_max_width;
 const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
+const char kNull_char = '\0';
 }  // namespace
 
 Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
@@ -90,7 +92,6 @@ bool Nokia_LCD::println(const char *string) {
 }
 
 bool Nokia_LCD::print(const char *string) {
-    const char kNull_char = '\0';
     unsigned int index = 0;
 
     bool out_of_bounds = false;
@@ -182,4 +183,71 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
     }
 
     return false;
+}
+
+bool Nokia_LCD::print(int number) {
+    // Handle the negative numbers
+    if (number < 0) {
+        print("-");
+        // We took care of the sign, so now we can treat the number as unsigned
+        number = -number;
+    }
+    return print(static_cast<unsigned long>(number));
+}
+
+bool Nokia_LCD::print(unsigned int number) {
+    return print(static_cast<unsigned long>(number));
+}
+
+bool Nokia_LCD::print(long number) {
+    // Handle the negative numbers
+    if (number < 0) {
+        print("-");
+        // We took care of the sign, so now we can treat the number as unsigned
+        number = -number;
+    }
+    return print(static_cast<unsigned long>(number));
+}
+
+bool Nokia_LCD::print(unsigned long number) {
+    const uint8_t base = 10;  // We shall treat all numbers as decimals
+    // The log base 10 of the number increased by 1 indicates how many digits
+    // there are in a number.
+    const uint8_t length_as_string =
+        static_cast<uint8_t>(log10(number)) + 1 + sizeof(kNull_char);
+
+    char number_as_string[length_as_string] = {0};
+    int8_t string_index = length_as_string - 1;   // Start from the end
+    number_as_string[string_index] = kNull_char;  // Null terminated string
+    while (--string_index >= 0) {
+        const char digit = static_cast<char>(number % base);
+        number /= base;
+        number_as_string[string_index] = '0' + digit;
+    }
+
+    return print(number_as_string);
+}
+
+bool Nokia_LCD::println(int number) {
+    bool out_of_bounds = print(number);
+
+    return print("\n") || out_of_bounds;
+}
+
+bool Nokia_LCD::println(unsigned int number) {
+    bool out_of_bounds = print(number);
+
+    return print("\n") || out_of_bounds;
+}
+
+bool Nokia_LCD::println(long number) {
+    bool out_of_bounds = print(number);
+
+    return print("\n") || out_of_bounds;
+}
+
+bool Nokia_LCD::println(unsigned long number) {
+    bool out_of_bounds = print(number);
+
+    return print("\n") || out_of_bounds;
 }

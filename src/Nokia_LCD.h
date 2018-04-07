@@ -70,22 +70,29 @@ public:
     void clear(bool is_black = false);
 
     /**
-     * Prints the supplied string starting at the current cursor location. The
+     * Prints the supplied element starting at the current cursor location. The
      * text will overflow by starting from the beginning if it exceeds the size
      * of the display.
      * @param  string The string to be printed on the display
      * @return        True if out of bounds error | False otherwise
      */
     bool print(const char *string);
-
+    bool print(int number);
+    bool print(unsigned int number);
+    bool print(long number);
+    bool print(unsigned long number);
     /**
-     * Prints the supplied string starting at the current cursor location and
+     * Prints the supplied element starting at the current cursor location and
      * goes to the next line. The text will overflow by starting from the
      * beginning if it exceeds the size of the display.
      * @param  string The string to be printed on the display
      * @return        True if out of bounds error | False otherwise
      */
     bool println(const char *string);
+    bool println(int number);
+    bool println(unsigned int number);
+    bool println(long number);
+    bool println(unsigned long number);
 
 // To increase compatibility with different ATTiny cores, only the classic
 // C-style strings are used by default. If you want to use the Arduino `String`
