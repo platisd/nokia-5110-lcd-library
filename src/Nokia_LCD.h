@@ -4,9 +4,10 @@
  * It is a derivative of Jim Lindblom's work, from Sparkfun. The goal
  * was to decrease its size so it can be ran on ATTiny microcontrollers
  * that have limited RAM size. Therefore, the main difference is that a
- * framebuffer, which would consume all dynamic memory, is not used.
- * The original library can be found on Sparkfun's GitHub repository:
- * https://github.com/sparkfun/GraphicLCD_Nokia_5110
+ * framebuffer, which would consume all dynamic memory, is not used. Get the
+ * original library [here](https://github.com/sparkfun/GraphicLCD_Nokia_5110).
+ *
+ * On how to use this library, please refer to the `examples/` folder.`
  */
 #pragma once
 #include <Arduino.h>
@@ -23,8 +24,9 @@ public:
      * @param ce_pin  Chip select pin (CE)
      * @param rst_pin Reset pin (RST)
      */
-    Nokia_LCD(uint8_t clk_pin, uint8_t din_pin, uint8_t dc_pin, uint8_t ce_pin,
-              uint8_t rst_pin);
+    Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
+              const uint8_t dc_pin, const uint8_t ce_pin,
+              const uint8_t rst_pin);
 
     /**
      * Initializes the LCD screen, has to be called before usage or waking up

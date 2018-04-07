@@ -19,8 +19,9 @@ const unsigned int kTotal_columns = kDisplay_max_width;
 const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
 }  // namespace
 
-Nokia_LCD::Nokia_LCD(uint8_t clk_pin, uint8_t din_pin, uint8_t dc_pin,
-                     uint8_t ce_pin, uint8_t rst_pin)
+Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
+                     const uint8_t dc_pin, const uint8_t ce_pin,
+                     const uint8_t rst_pin)
     : kClk_pin{clk_pin},
       kDin_pin{din_pin},
       kDc_pin{dc_pin},
