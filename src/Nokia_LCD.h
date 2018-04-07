@@ -74,7 +74,6 @@ public:
      * @return        True if out of bounds error | False otherwise
      */
     bool print(const char *string);
-    //bool print(const String &string); // Comment if String not implemented
 
     /**
      * Prints the supplied string starting at the current cursor location and
@@ -84,7 +83,14 @@ public:
      * @return        True if out of bounds error | False otherwise
      */
     bool println(const char *string);
-    //bool println(const String &string); // Comment if String not implemented
+
+// To increase compatibility with different ATTiny cores, only the classic
+// C-style strings are used by default. If you want to use the Arduino `String`
+// class, then insert `#define STRING_CLASS_IS_IMPLEMENTED` in this file.
+#ifdef STRING_CLASS_IS_IMPLEMENTED
+    bool print(const String &string);
+    bool println(const String &string);
+#endif
 
     /**
      * Draws the supplied bitmap on the screen starting at the current cursor
