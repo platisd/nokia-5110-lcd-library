@@ -59,7 +59,8 @@ void setup() {
   delay(2000);
   // Draw the platis.solutions logo on your screen
   lcd.draw(platis_solutions_logo,
-           sizeof(platis_solutions_logo) / sizeof(unsigned char), true);
+           sizeof(platis_solutions_logo) / sizeof(platis_solutions_logo[0]),
+           true);
   delay(3000);
   // Clear the screen by filling it with white pixels
   lcd.clear();
