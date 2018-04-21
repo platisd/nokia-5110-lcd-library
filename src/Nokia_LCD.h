@@ -118,11 +118,11 @@ public:
      * @param  bitmap_size       The size of the bitmap to be displayed up to
      *                           504 bits
      * @param read_from_progmem  Whether the bitmap is stored in flash memory
-     *                           instead of SRAM
+     *                           instead of SRAM. Default read from flash.
      * @return                   True if out of bounds error | False otherwise
      */
     bool draw(const unsigned char bitmap[], const unsigned int bitmap_size,
-              const bool read_from_progmem = false);
+              const bool read_from_progmem = true);
 
     /**
      * Sends the specified byte as a command to the display.
