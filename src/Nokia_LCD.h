@@ -86,6 +86,16 @@ public:
      * Prints the supplied element starting at the current cursor location and
      * goes to the next line. The text will overflow by starting from the
      * beginning if it exceeds the size of the display.
+     * @param  number The string to be printed on the display
+     * @param  digits How many floating point digits to print
+     * @return        True if out of bounds error | False otherwise
+     */
+    bool print(double number, unsigned short decimals = 2);
+
+    /**
+     * Prints the supplied element starting at the current cursor location and
+     * goes to the next line. The text will overflow by starting from the
+     * beginning if it exceeds the size of the display.
      * @param  string The string to be printed on the display
      * @return        True if out of bounds error | False otherwise
      */
@@ -94,6 +104,16 @@ public:
     bool println(unsigned int number);
     bool println(long number);
     bool println(unsigned long number);
+
+    /**
+     * Prints the supplied element starting at the current cursor location and
+     * goes to the next line. The text will overflow by starting from the
+     * beginning if it exceeds the size of the display.
+     * @param  number The string to be printed on the display
+     * @param  digits How many floating point digits to print
+     * @return        True if out of bounds error | False otherwise
+     */
+    bool println(double number, unsigned short decimals = 2);
 
 // To increase compatibility with different ATTiny cores, only the classic
 // C-style strings are used by default. If you want to use the Arduino `String`

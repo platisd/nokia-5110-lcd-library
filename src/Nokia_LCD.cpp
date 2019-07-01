@@ -228,6 +228,13 @@ bool Nokia_LCD::print(unsigned long number) {
     return print(number_as_string);
 }
 
+bool Nokia_LCD::print(double number, unsigned short decimals) {
+    double integral = 0;
+    long fractional = pow(10.0, decimals) * modf(number, &integral);
+
+    return print(static_cast<long>(number)) || print(".") || print(fractional);
+}
+
 bool Nokia_LCD::println(int number) {
     bool out_of_bounds = print(number);
 
@@ -248,6 +255,12 @@ bool Nokia_LCD::println(long number) {
 
 bool Nokia_LCD::println(unsigned long number) {
     bool out_of_bounds = print(number);
+
+    return print("\n") || out_of_bounds;
+}
+
+bool Nokia_LCD::println(double number, unsigned short decimals) {
+    bool out_of_bounds = print(number, decimals);
 
     return print("\n") || out_of_bounds;
 }
