@@ -58,6 +58,11 @@ void Nokia_LCD::setContrast(uint8_t contrast) {
     sendCommand(0x20);             // Set display mode
 }
 
+void Nokia_LCD::setInverted(bool invert)
+{
+    inverted = invert;
+}
+
 bool Nokia_LCD::setCursor(uint8_t x, uint8_t y) {
     if (x >= kDisplay_max_width || y >= kTotal_rows) {
         return false;
@@ -133,8 +138,10 @@ bool Nokia_LCD::printCharacter(const unsigned char character) {
         return mY_cursor == 0;
     }
 
-    return draw(Nokia_LCD_Fonts::kDefault_font[character - 0x20],
+    bool out_of_bounds = draw(Nokia_LCD_Fonts::kDefault_font[character - 0x20],
                 Nokia_LCD_Fonts::kColumns_per_character, true);
+
+    return draw(inverted ? Nokia_LCD_Fonts::space : Nokia_LCD_Fonts::space, 1, false) || out_of_bounds;
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
@@ -144,6 +151,9 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
     for (unsigned int i = 0; i < bitmap_size; i++) {
         unsigned char pixel =
             read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
+        if (inverted) {
+            pixel = ~pixel;
+        }
         out_of_bounds = sendData(pixel) || out_of_bounds;
     }
 
