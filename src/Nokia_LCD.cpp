@@ -1,3 +1,4 @@
+#pragma once
 // If we are not building for AVR architectures ignore PROGMEM
 #if defined(__AVR__)
 #include <avr/pgmspace.h>
