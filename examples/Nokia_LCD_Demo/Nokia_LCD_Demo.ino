@@ -67,8 +67,10 @@ void setup() {
 
   // Set the cursor on the beginning of the 6th row (the last one)
   lcd.setCursor(0, 5);
-  // Write something on the specific row
+  // Write something on the specific row with inverted color
+  lcd.setInverted(true);
   lcd.print("Hello world!");
+  lcd.setInverted(false);
   // The cursor is still on the 6th row. Newline characters ('\n') move the
   // cursor to the next line. Since we were on the last row, the cursor goes
   // back to the first line. If you check the return value of `println`

@@ -157,6 +157,12 @@ public:
      */
     bool sendData(const unsigned char data);
 
+    /**
+     * Sets the flag to invert colors
+     * on rendering a char
+     */ 
+    void setInverted(bool invert);
+
 private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
@@ -176,4 +182,5 @@ private:
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
     uint8_t mX_cursor, mY_cursor;
+    bool inverted = false;
 };
