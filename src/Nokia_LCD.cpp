@@ -140,7 +140,7 @@ bool Nokia_LCD::printCharacter(const unsigned char character) {
 
     bool out_of_bounds = draw(Nokia_LCD_Fonts::kDefault_font[character - 0x20],
                 Nokia_LCD_Fonts::kColumns_per_character, true);
-
+    // Separate the characters with a vertical line so they don't appear too close to each other
     return draw(Nokia_LCD_Fonts::space, 1, false) || out_of_bounds;
 }
 
