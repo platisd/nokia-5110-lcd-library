@@ -182,6 +182,7 @@ public:
      * @param enabled True backlight should be turned on, false to turn if off
      */ 
     void setBacklight(bool enabled);
+
 private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
