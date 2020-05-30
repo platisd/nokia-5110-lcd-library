@@ -29,7 +29,8 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kDc_pin{dc_pin},
       kCe_pin{ce_pin},
       kRst_pin{rst_pin},
-      kBl_pin{NULL},
+      kBl_pin{255},
+      usingBacklight{false},
       mX_cursor{0},
       mY_cursor{0} {}
 
@@ -42,6 +43,7 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kCe_pin{ce_pin},
       kRst_pin{rst_pin},
       kBl_pin{bl_pin},
+      usingBacklight{true},
       mX_cursor{0},
       mY_cursor{0} {}
 
@@ -79,7 +81,7 @@ void Nokia_LCD::setInverted(bool invert)
 
 void Nokia_LCD::setBacklight(bool enabled)
 {
-    if (!kBl_pin) {
+    if (!usingBacklight) {
         return;
     }
     digitalWrite(kBl_pin, enabled);
