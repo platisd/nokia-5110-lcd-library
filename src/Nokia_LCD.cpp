@@ -78,7 +78,6 @@ void Nokia_LCD::setInverted(bool invert)
     inverted = invert;
 }
 
-
 void Nokia_LCD::setBacklight(bool enabled)
 {
     if (!usingBacklight) {
