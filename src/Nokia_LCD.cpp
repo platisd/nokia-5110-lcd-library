@@ -53,6 +53,9 @@ void Nokia_LCD::begin() {
     pinMode(kDc_pin, OUTPUT);
     pinMode(kCe_pin, OUTPUT);
     pinMode(kRst_pin, OUTPUT);
+    if (usingBacklight) {
+        pinMode(kBl_pin, OUTPUT);
+    }
 
     // Reset the LCD to a known state
     digitalWrite(kRst_pin, LOW);
