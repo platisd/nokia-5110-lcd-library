@@ -77,7 +77,7 @@ void Nokia_LCD::setContrast(uint8_t contrast) {
 
 void Nokia_LCD::setInverted(bool invert)
 {
-    kInverted = invert;
+    mInverted = invert;
 }
 
 void Nokia_LCD::setBacklight(bool enabled)
@@ -176,7 +176,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
     for (unsigned int i = 0; i < bitmap_size; i++) {
         unsigned char pixel =
             read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
-        if (kInverted) {
+        if (mInverted) {
             pixel = ~pixel;
         }
         out_of_bounds = sendData(pixel) || out_of_bounds;
