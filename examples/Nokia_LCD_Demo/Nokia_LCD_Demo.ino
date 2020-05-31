@@ -47,11 +47,18 @@ const unsigned char platis_solutions_logo[504] PROGMEM = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
-Nokia_LCD lcd(13 /* CLK */, 12 /* DIN */, 11 /* DC */, 10 /* CE */, 9 /* RST */);
+Nokia_LCD lcd(13 /* CLK */, 12 /* DIN */, 11 /* DC */, 10 /* CE */, 9 /* RST */, 9 /* BL */);
+
+/**
+ * Or, if you would like to control the backlight on your own, init the lcd without the last argument
+ * Nokia_LCD lcd(13, 12, 11, 10, 9);
+*/
 
 void setup() {
   // Initialize the screen
   lcd.begin();
+  // Turn on the backlight
+  lcd.setBacklight(true);
   // Set the contrast
   lcd.setContrast(60);  // Good values are usualy between 40 and 60
   // Clear the screen by filling it with black pixels
@@ -64,7 +71,8 @@ void setup() {
   delay(3000);
   // Clear the screen by filling it with white pixels
   lcd.clear();
-
+  // Turn off the backlight
+  lcd.setBacklight(false);
   // Set the cursor on the beginning of the 6th row (the last one)
   lcd.setCursor(0, 5);
   // Write something on the specific row with inverted color

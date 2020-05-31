@@ -29,6 +29,19 @@ public:
               const uint8_t rst_pin);
 
     /**
+     * Nokia_LCD constructor where the pins connected to the display are
+     * defined. Additional pin to control the backlight provided.
+     * @param clk_pin Clock pin (CLK)
+     * @param din_pin Data input pin (MOSI)
+     * @param dc_pin  Data or command pin (DC)
+     * @param ce_pin  Chip select pin (CE)
+     * @param rst_pin Reset pin (RST)
+     * @param bl_pin Backlight pin (BL)
+     */
+    Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
+              const uint8_t dc_pin, const uint8_t ce_pin,
+              const uint8_t rst_pin, const uint8_t bl_pin);
+    /**
      * Initializes the LCD screen, has to be called before usage or waking up
      * from deep sleep.
      */
@@ -160,8 +173,15 @@ public:
     /**
      * Sets the flag to invert colors
      * on rendering a char
+     * @param invert True if a following printed chars should have inverted colors
      */ 
     void setInverted(bool invert);
+    
+    /**
+     * Turns the backlight on/off
+     * @param enabled True backlight should be turned on, false to turn if off
+     */ 
+    void setBacklight(bool enabled);
 
 private:
     /**
@@ -180,7 +200,8 @@ private:
      */
     bool printCharacter(const unsigned char character);
 
-    const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin;
+    const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
     uint8_t mX_cursor, mY_cursor;
-    bool inverted = false;
+    bool mInverted = false;
+    const bool kUsingBacklight;
 };
