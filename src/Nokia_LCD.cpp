@@ -29,7 +29,7 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kCe_pin{ce_pin},
       kRst_pin{rst_pin},
       kBl_pin{255},
-      usingBacklight{false},
+      kUsingBacklight{false},
       mX_cursor{0},
       mY_cursor{0} {}
 
@@ -42,7 +42,7 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kCe_pin{ce_pin},
       kRst_pin{rst_pin},
       kBl_pin{bl_pin},
-      usingBacklight{true},
+      kUsingBacklight{true},
       mX_cursor{0},
       mY_cursor{0} {}
 
@@ -52,7 +52,7 @@ void Nokia_LCD::begin() {
     pinMode(kDc_pin, OUTPUT);
     pinMode(kCe_pin, OUTPUT);
     pinMode(kRst_pin, OUTPUT);
-    if (usingBacklight) {
+    if (kUsingBacklight) {
         pinMode(kBl_pin, OUTPUT);
     }
 
@@ -77,12 +77,12 @@ void Nokia_LCD::setContrast(uint8_t contrast) {
 
 void Nokia_LCD::setInverted(bool invert)
 {
-    inverted = invert;
+    kInverted = invert;
 }
 
 void Nokia_LCD::setBacklight(bool enabled)
 {
-    if (!usingBacklight) {
+    if (!kUsingBacklight) {
         return;
     }
     digitalWrite(kBl_pin, enabled);
@@ -176,7 +176,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
     for (unsigned int i = 0; i < bitmap_size; i++) {
         unsigned char pixel =
             read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
-        if (inverted) {
+        if (kInverted) {
             pixel = ~pixel;
         }
         out_of_bounds = sendData(pixel) || out_of_bounds;

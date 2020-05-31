@@ -202,6 +202,6 @@ private:
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
     uint8_t mX_cursor, mY_cursor;
-    bool inverted = false;
-    bool usingBacklight;
+    bool kInverted = false;
+    const bool kUsingBacklight;
 };
