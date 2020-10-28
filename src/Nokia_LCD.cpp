@@ -274,12 +274,14 @@ bool Nokia_LCD::print(double number, unsigned short decimals) {
     out_of_bounds = out_of_bounds || print(".");
 
     //prints any leading 0s after the dot
-    for(int d = decimals - 1 ; out_of_bounds || (0 <= d); d-- ) {
+    for(int d = decimals - 1 ; (0 <= d); d-- ) {
         int num = fractional/pow(10, d);
-        if (num == 0) 
- 	   out_of_bounds = out_of_bounds || print(num);
-	else
-           break; //no more 0s to print so break
+        if (num == 0) {
+            out_of_bounds = out_of_bounds || print(num);
+        }
+	    else {
+            break; //no more 0s to print so break
+        }
     }
 	
     //prints the rest of the fractional
