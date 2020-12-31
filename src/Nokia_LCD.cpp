@@ -263,11 +263,29 @@ bool Nokia_LCD::print(unsigned long number) {
     return print(number_as_string);
 }
 
+
 bool Nokia_LCD::print(double number, unsigned short decimals) {
     double integral = 0;
     long fractional = pow(10.0, decimals) * modf(number, &integral);
+    bool out_of_bounds = false;
 
-    return print(static_cast<long>(number)) || print(".") || print(fractional);
+    //prints the left hand side of the dot
+    out_of_bounds = out_of_bounds || print(static_cast<long>(number));
+    out_of_bounds = out_of_bounds || print(".");
+
+    //prints any leading 0s after the dot
+    for(int d = decimals - 1 ; (0 <= d); d-- ) {
+        int num = fractional/pow(10, d);
+        if (num == 0) {
+            out_of_bounds = out_of_bounds || print(num);
+        }
+	    else {
+            break; //no more 0s to print so break
+        }
+    }
+	
+    //prints the rest of the fractional
+    return (out_of_bounds || print(fractional));
 }
 
 bool Nokia_LCD::println(int number) {
