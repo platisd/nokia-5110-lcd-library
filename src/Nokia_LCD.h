@@ -225,4 +225,5 @@ private:
     uint8_t mX_cursor, mY_cursor;
     bool mInverted = false;
     const bool kUsingBacklight;
+    const bool kUsingHardwareSPI;
 };
