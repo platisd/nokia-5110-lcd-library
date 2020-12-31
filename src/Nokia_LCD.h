@@ -41,6 +41,27 @@ public:
     Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
               const uint8_t dc_pin, const uint8_t ce_pin,
               const uint8_t rst_pin, const uint8_t bl_pin);
+    
+    /**
+     * Nokia_LCD constructor where the pins connected to the display are
+     * defined, but the hardware SPI pins are used.
+     * @param dc_pin  Data or command pin (DC)
+     * @param ce_pin  Chip select pin (CE)
+     * @param rst_pin Reset pin (RST)
+     */
+    Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin, const uint8_t rst_pin);
+    
+    /**
+     * Nokia_LCD constructor where the pins connected to the display are
+     * defined, but the hardware SPI pins are used.
+     * Additional pin to control the backlight provided.
+     * @param dc_pin  Data or command pin (DC)
+     * @param ce_pin  Chip select pin (CE)
+     * @param rst_pin Reset pin (RST)
+     * @param bl_pin Backlight pin (BL)
+     */
+    Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin, const uint8_t rst_pin, const uint8_t bl_pin);
+    
     /**
      * Initializes the LCD screen, has to be called before usage or waking up
      * from deep sleep.
