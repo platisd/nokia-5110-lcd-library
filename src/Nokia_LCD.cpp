@@ -226,6 +226,9 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
     // Send the byte
     if (kUsingHardwareSPI) {
         SPI.begin();
+        SPI.setClockDivider(SPI_CLOCK_DIV4);
+        SPI.setDataMode(SPI_MODE0);
+        SPI.setBitOrder(MSBFIRST);
     }
     digitalWrite(kCe_pin, LOW);
     if (kUsingHardwareSPI) {
