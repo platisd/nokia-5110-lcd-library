@@ -224,19 +224,21 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
     digitalWrite(kDc_pin, is_data);
 
     // Send the byte
-    if (kUsingHardwareSPI) {
-        SPI.begin();
-    }
     digitalWrite(kCe_pin, LOW);
     if (kUsingHardwareSPI) {
+        SPI.begin();
+        SPI.setClockDivider(SPI_CLOCK_DIV4);
+        SPI.setDataMode(SPI_MODE0);
+        SPI.setBitOrder(MSBFIRST);
         SPI.transfer(lcd_byte);
     } else {
         shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
     }
-    digitalWrite(kCe_pin, HIGH);
+    
     if (kUsingHardwareSPI) {
         SPI.end();
     }
+    digitalWrite(kCe_pin, HIGH);
 
     // If we just sent the command, there was no out-of-bounds error
     // and we don't have to calculate the new cursor position
@@ -355,3 +357,4 @@ bool Nokia_LCD::println(double number, unsigned short decimals) {
 
     return print("\n") || out_of_bounds;
 }
+
