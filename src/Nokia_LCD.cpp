@@ -6,6 +6,7 @@
 #define pgm_read_byte_near *
 #endif
 #include <math.h>
+#include <SPI.h>
 #include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
 
@@ -30,6 +31,20 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kRst_pin{rst_pin},
       kBl_pin{255},
       kUsingBacklight{false},
+      kUsingHardwareSPI{false},
+      mX_cursor{0},
+      mY_cursor{0} {}
+
+
+Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin, const uint8_t rst_pin)
+    : kClk_pin{0},
+      kDin_pin{0},
+      kDc_pin{dc_pin},
+      kCe_pin{ce_pin},
+      kRst_pin{rst_pin},
+      kBl_pin{255},
+      kUsingBacklight{false},
+      kUsingHardwareSPI{true},
       mX_cursor{0},
       mY_cursor{0} {}
 
@@ -43,6 +58,20 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kRst_pin{rst_pin},
       kBl_pin{bl_pin},
       kUsingBacklight{true},
+      kUsingHardwareSPI{false},
+      mX_cursor{0},
+      mY_cursor{0} {}
+
+Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin,
+                     const uint8_t rst_pin, const uint8_t bl_pin)
+    : kClk_pin{0},
+      kDin_pin{0},
+      kDc_pin{dc_pin},
+      kCe_pin{ce_pin},
+      kRst_pin{rst_pin},
+      kBl_pin{bl_pin},
+      kUsingBacklight{true},
+      kUsingHardwareSPI{true},
       mX_cursor{0},
       mY_cursor{0} {}
 
@@ -197,7 +226,17 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
 
     // Send the byte
     digitalWrite(kCe_pin, LOW);
-    shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
+    if (kUsingHardwareSPI) {
+        SPI.begin();
+        SPI.setClockDivider(SPI_CLOCK_DIV4);
+        SPI.setDataMode(SPI_MODE0);
+        SPI.setBitOrder(MSBFIRST);
+        SPI.transfer(lcd_byte);
+        SPI.end();
+    } else {
+        shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
+    }
+    
     digitalWrite(kCe_pin, HIGH);
 
     // If we just sent the command, there was no out-of-bounds error
@@ -317,3 +356,4 @@ bool Nokia_LCD::println(double number, unsigned short decimals) {
 
     return print("\n") || out_of_bounds;
 }
+
