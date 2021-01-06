@@ -11,7 +11,6 @@
  */
 #pragma once
 #include <Arduino.h>
-#include <SPI.h>
 #include <stdint.h>
 
 class Nokia_LCD {

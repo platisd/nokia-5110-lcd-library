@@ -6,6 +6,7 @@
 #define pgm_read_byte_near *
 #endif
 #include <math.h>
+#include <SPI.h>
 #include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
 
@@ -231,13 +232,11 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
         SPI.setDataMode(SPI_MODE0);
         SPI.setBitOrder(MSBFIRST);
         SPI.transfer(lcd_byte);
+        SPI.end();
     } else {
         shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
     }
     
-    if (kUsingHardwareSPI) {
-        SPI.end();
-    }
     digitalWrite(kCe_pin, HIGH);
 
     // If we just sent the command, there was no out-of-bounds error
