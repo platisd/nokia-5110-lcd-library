@@ -176,7 +176,15 @@ bool Nokia_LCD::println(const String &string) {
 }
 #endif
 
-bool Nokia_LCD::printCharacter(const unsigned char character) {
+bool Nokia_LCD::println(char character) {
+    bool out_of_bounds = print(character);
+
+    return print("\n") || out_of_bounds;
+}
+
+bool Nokia_LCD::print(char character) { return printCharacter(character); }
+
+bool Nokia_LCD::printCharacter(char character) {
     const unsigned char new_line = '\n';
 
     // If there is a new line character, we only need to change row

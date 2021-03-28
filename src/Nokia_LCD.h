@@ -113,6 +113,7 @@ public:
      * @return        True if out of bounds error | False otherwise
      */
     bool print(const char *string);
+    bool print(char character);
     bool print(int number);
     bool print(unsigned int number);
     bool print(long number);
@@ -136,6 +137,7 @@ public:
      * @return        True if out of bounds error | False otherwise
      */
     bool println(const char *string);
+    bool println(char character);
     bool println(int number);
     bool println(unsigned int number);
     bool println(long number);
@@ -222,7 +224,7 @@ private:
      * @param  character The character to be printed
      * @return           True if out of bounds error | False otherwise
      */
-    bool printCharacter(const unsigned char character);
+    bool printCharacter(char character);
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
     uint8_t mX_cursor, mY_cursor;
