@@ -5,8 +5,9 @@
 #define PROGMEM
 #define pgm_read_byte_near *
 #endif
-#include <math.h>
 #include <SPI.h>
+#include <math.h>
+
 #include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
 
@@ -35,8 +36,8 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       mX_cursor{0},
       mY_cursor{0} {}
 
-
-Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin, const uint8_t rst_pin)
+Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin,
+                     const uint8_t rst_pin)
     : kClk_pin{0},
       kDin_pin{0},
       kDc_pin{dc_pin},
@@ -104,13 +105,9 @@ void Nokia_LCD::setContrast(uint8_t contrast) {
     sendCommand(0x20);             // Set display mode
 }
 
-void Nokia_LCD::setInverted(bool invert)
-{
-    mInverted = invert;
-}
+void Nokia_LCD::setInverted(bool invert) { mInverted = invert; }
 
-void Nokia_LCD::setBacklight(bool enabled)
-{
+void Nokia_LCD::setBacklight(bool enabled) {
     if (!kUsingBacklight) {
         return;
     }
@@ -193,8 +190,9 @@ bool Nokia_LCD::printCharacter(const unsigned char character) {
     }
 
     bool out_of_bounds = draw(Nokia_LCD_Fonts::kDefault_font[character - 0x20],
-                Nokia_LCD_Fonts::kColumns_per_character, true);
-    // Separate the characters with a vertical line so they don't appear too close to each other
+                              Nokia_LCD_Fonts::kColumns_per_character, true);
+    // Separate the characters with a vertical line so they don't appear too
+    // close to each other
     return draw(Nokia_LCD_Fonts::space, 1, false) || out_of_bounds;
 }
 
@@ -236,7 +234,7 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
     } else {
         shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
     }
-    
+
     digitalWrite(kCe_pin, HIGH);
 
     // If we just sent the command, there was no out-of-bounds error
@@ -302,28 +300,26 @@ bool Nokia_LCD::print(unsigned long number) {
     return print(number_as_string);
 }
 
-
 bool Nokia_LCD::print(double number, unsigned short decimals) {
     double integral = 0;
     long fractional = pow(10.0, decimals) * modf(number, &integral);
     bool out_of_bounds = false;
 
-    //prints the left hand side of the dot
+    // prints the left hand side of the dot
     out_of_bounds = out_of_bounds || print(static_cast<long>(number));
     out_of_bounds = out_of_bounds || print(".");
 
-    //prints any leading 0s after the dot
-    for(int d = decimals - 1 ; (0 <= d); d-- ) {
-        int num = fractional/pow(10, d);
+    // prints any leading 0s after the dot
+    for (int d = decimals - 1; (0 <= d); d--) {
+        int num = fractional / pow(10, d);
         if (num == 0) {
             out_of_bounds = out_of_bounds || print(num);
-        }
-	    else {
-            break; //no more 0s to print so break
+        } else {
+            break;  // no more 0s to print so break
         }
     }
-	
-    //prints the rest of the fractional
+
+    // prints the rest of the fractional
     return (out_of_bounds || print(fractional));
 }
 
@@ -356,4 +352,3 @@ bool Nokia_LCD::println(double number, unsigned short decimals) {
 
     return print("\n") || out_of_bounds;
 }
-
