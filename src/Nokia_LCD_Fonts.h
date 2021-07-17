@@ -6,10 +6,14 @@
 #define PROGMEM
 #endif
 
+
+#include "LCD_Fonts.h"
+
 namespace Nokia_LCD_Fonts {
 const uint8_t kColumns_per_character = 5;
 const uint8_t kRows_per_character = 8;
 const unsigned char space[] = {0x00};
+
 
 /* Font table:
 This table contains the hex values that represent pixels for a
@@ -212,4 +216,25 @@ const unsigned char kDefault_font[][kColumns_per_character] PROGMEM = {
     ,
     {0x78, 0x46, 0x41, 0x46, 0x78}  // 0x7f DEL
 };
+
+   
+
+    struct DefaultFont: public LCDFont {
+        const unsigned char* getFont(char character) {
+            return kDefault_font[character - 0x20];
+        }
+
+        const uint8_t colSize() {
+            return kColumns_per_character;
+        }
+
+        const uint8_t rowSize() {
+            return kRows_per_character;
+        }
+        
+        const unsigned char* spaceChar() {
+            return space;
+        }
+    };
+
 }  // namespace Nokia_LCD_Fonts

@@ -12,6 +12,7 @@
 #pragma once
 #include <Arduino.h>
 #include <stdint.h>
+#include "LCD_Fonts.h"
 
 class Nokia_LCD {
 public:
@@ -209,6 +210,9 @@ public:
      */
     void setBacklight(bool enabled);
 
+
+    void setFont(FontType font);
+
 private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
@@ -231,4 +235,5 @@ private:
     bool mInverted = false;
     const bool kUsingBacklight;
     const bool kUsingHardwareSPI;
+    FontType currentFont = FontType::Default;
 };
