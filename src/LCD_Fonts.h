@@ -12,15 +12,10 @@
 #pragma once
 #include <Arduino.h>
 
-struct LCDFont {
+struct CustomFont {
     virtual const unsigned char* getFont(char character) = 0;
     virtual const uint8_t colSize() = 0;
     virtual const uint8_t rowSize() = 0;
-    virtual const unsigned char* spaceChar() = 0;
-};
-
-enum FontType {
-    Default,
-    Tiny,
-    Bold
+    virtual const unsigned char* HSpacingChar() = 0;
+    virtual const uint8_t HSpacingSize() = 0;
 };

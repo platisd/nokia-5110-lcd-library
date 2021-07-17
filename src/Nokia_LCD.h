@@ -210,8 +210,11 @@ public:
      */
     void setBacklight(bool enabled);
 
-
-    void setFont(FontType font);
+    /**
+     * Sets a different font to be displayed.  
+     * @param font A derived struct based on CustomFont. Pass NULL to set the default font.
+     */
+    void setFont(CustomFont *font);
 
 private:
     /**
@@ -235,5 +238,5 @@ private:
     bool mInverted = false;
     const bool kUsingBacklight;
     const bool kUsingHardwareSPI;
-    FontType currentFont = FontType::Default;
+    CustomFont *customFont;
 };

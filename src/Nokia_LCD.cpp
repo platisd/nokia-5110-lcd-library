@@ -10,20 +10,16 @@
 
 #include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
-#include "Small_LCD_Fonts.h"
 
 namespace {
 const uint8_t kDisplay_max_width = 84;
 const uint8_t kDisplay_max_height = 48;
 
-const Nokia_LCD_Fonts::DefaultFont nokiaFont;
-const Small_LCD_Fonts::SmallFont smallFont;
-const LCDFont *fonts[] = {&nokiaFont, &smallFont};
-
+const Nokia_LCD_Fonts::DefaultFont defaultFont;
 
 // Each row is made of 8-bit columns
 unsigned int kTotal_rows =
-    kDisplay_max_height / fonts[FontType::Default]->rowSize();
+    kDisplay_max_height / defaultFont.rowSize();
 const unsigned int kTotal_columns = kDisplay_max_width;
 const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
 const char kNull_char = '\0';
@@ -95,6 +91,9 @@ void Nokia_LCD::begin() {
         pinMode(kBl_pin, OUTPUT);
     }
 
+    // Sets the default font
+    setFont(&defaultFont);
+
     // Reset the LCD to a known state
     digitalWrite(kRst_pin, LOW);
     digitalWrite(kRst_pin, HIGH);
@@ -116,9 +115,13 @@ void Nokia_LCD::setContrast(uint8_t contrast) {
 
 void Nokia_LCD::setInverted(bool invert) { mInverted = invert; }
 
-void Nokia_LCD::setFont(FontType font) { 
-    currentFont = font; 
-    kTotal_rows = kDisplay_max_height / fonts[currentFont]->rowSize();
+void Nokia_LCD::setFont(CustomFont *font) { 
+    if (font != NULL) 
+        customFont = font;         
+    else
+        customFont = &defaultFont;
+    
+    kTotal_rows = kDisplay_max_height / customFont->rowSize();
 }
 
 void Nokia_LCD::setBacklight(bool enabled) {
@@ -211,11 +214,11 @@ bool Nokia_LCD::printCharacter(char character) {
         return mY_cursor == 0;
     }
 
-    bool out_of_bounds = draw(fonts[currentFont]->getFont(character),
-                              fonts[currentFont]->colSize(), true);
+    bool out_of_bounds = draw(customFont->getFont(character),
+                              customFont->colSize(), true);
     // Separate the characters with a vertical line so they don't appear too
-    // close to each other
-    return draw(fonts[currentFont]->spaceChar(), 1, false) || out_of_bounds;
+    // close to each other    
+    return draw(customFont->HSpacingChar(), customFont->HSpacingSize(), false) || out_of_bounds;
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
