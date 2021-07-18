@@ -15,7 +15,7 @@ namespace {
 const uint8_t kDisplay_max_width = 84;
 const uint8_t kDisplay_max_height = 48;
 
-const Nokia_LCD_Fonts::DefaultFont defaultFont;
+Nokia_LCD_Fonts::DefaultFont defaultFont;
 
 // Each row is made of 8-bit columns
 unsigned int kTotal_rows =
