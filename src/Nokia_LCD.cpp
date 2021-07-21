@@ -210,11 +210,11 @@ bool Nokia_LCD::printCharacter(char character) {
         // If we went back to row 0, return an out-of-bounds error
         return mY_cursor == 0;
     }
-    
+
     bool out_of_bounds = draw(currentFont->getFont(character),
                               currentFont->columnSize, true);
     // Separate the characters with a vertical line so they don't appear too
-    // close to each other    
+    // close to each other
     return draw(currentFont->hSpace, currentFont->hSpaceSize, false) || out_of_bounds;
 }
 

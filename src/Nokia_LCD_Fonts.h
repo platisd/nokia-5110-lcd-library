@@ -6,8 +6,6 @@
 #define PROGMEM
 #endif
 
-#include "LCD_Fonts.h"
-
 namespace Nokia_LCD_Fonts {
 const uint8_t kColumns_per_character = 5;
 const uint8_t kRows_per_character = 8;
@@ -143,7 +141,7 @@ const unsigned char kDefault_font[][kColumns_per_character] PROGMEM = {
     {0x00, 0x7f, 0x41, 0x41, 0x00}  // 0x5b [
     ,
     {0x02, 0x04, 0x08, 0x10,
-    0x20}  // 0x5c \ (keep this to escape the backslash)
+     0x20}  // 0x5c \ (keep this to escape the backslash)
     ,
     {0x00, 0x41, 0x41, 0x7f, 0x00}  // 0x5d ]
     ,
