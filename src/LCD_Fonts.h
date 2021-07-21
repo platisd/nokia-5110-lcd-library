@@ -25,7 +25,8 @@ class LcdFont
             , rowSize( Nokia_LCD_Fonts::kRows_per_character )
         {
         }
-        LcdFont(const unsigned char *hSpace,
+        LcdFont(//const unsigned char **fontTable,
+                const unsigned char *hSpace,
                     uint8_t hSpaceSize,
                     uint8_t characterOffset,
                     uint8_t pColumnSize,
