@@ -17,7 +17,7 @@ class LcdFont
 {
     public:
         LcdFont()
-            : kFontTable( Nokia_LCD_Fonts::kDefault_font )  //<- don't work
+            : kFontTable( Nokia_LCD_Fonts::kDefault_font ) 
             , hSpace( Nokia_LCD_Fonts::hSpace )
             , hSpaceSize( Nokia_LCD_Fonts::hSpaceSize )
             , kCharacterOffset( 0x20 )
@@ -46,6 +46,6 @@ class LcdFont
         const unsigned char* hSpace;
         const uint8_t hSpaceSize;        
     private:
-        const unsigned char **kFontTable;  //<- not good
+        const unsigned char (*kFontTable)[Nokia_LCD_Fonts::kColumns_per_character];  //<- not good, I need other sizes here not only 5
         const uint8_t kCharacterOffset;
 };

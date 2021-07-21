@@ -15,7 +15,7 @@ namespace {
 const uint8_t kDisplay_max_width = 84;
 const uint8_t kDisplay_max_height = 48;
 
-const LcdFont nokiaFont;
+LcdFont nokiaFont;
 
 // Each row is made of 8-bit columns
 const unsigned int kTotal_rows =
@@ -36,9 +36,9 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kBl_pin{255},
       kUsingBacklight{false},
       kUsingHardwareSPI{false},
-      currentFont{&nokiaFont},
       mX_cursor{0},
-      mY_cursor{0} {}
+      mY_cursor{0},
+      currentFont{&nokiaFont} {}
 
 Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin,
                      const uint8_t rst_pin)
@@ -50,9 +50,9 @@ Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin,
       kBl_pin{255},
       kUsingBacklight{false},
       kUsingHardwareSPI{true},
-      currentFont{&nokiaFont},
       mX_cursor{0},
-      mY_cursor{0} {}
+      mY_cursor{0},
+      currentFont{&nokiaFont} {}
 
 Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
                      const uint8_t dc_pin, const uint8_t ce_pin,
@@ -65,9 +65,9 @@ Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
       kBl_pin{bl_pin},
       kUsingBacklight{true},
       kUsingHardwareSPI{false},
-      currentFont{&nokiaFont},
       mX_cursor{0},
-      mY_cursor{0} {}
+      mY_cursor{0},
+      currentFont{&nokiaFont} {}
 
 Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin,
                      const uint8_t rst_pin, const uint8_t bl_pin)
@@ -79,9 +79,9 @@ Nokia_LCD::Nokia_LCD(const uint8_t dc_pin, const uint8_t ce_pin,
       kBl_pin{bl_pin},
       kUsingBacklight{true},
       kUsingHardwareSPI{true},
-      currentFont{&nokiaFont},
       mX_cursor{0},
-      mY_cursor{0} {}
+      mY_cursor{0},
+      currentFont{&nokiaFont} {}
 
 void Nokia_LCD::begin() {
     pinMode(kClk_pin, OUTPUT);
