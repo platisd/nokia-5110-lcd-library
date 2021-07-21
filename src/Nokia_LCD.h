@@ -212,9 +212,9 @@ public:
 
     /**
      * Sets a different font to be displayed.  
-     * @param font A derived struct based on CustomFont. Pass NULL to set the default font.
+     * @param font 
      */
-    void setFont(CustomFont *font);
+    void setFont(LcdFont *font);
 
 private:
     /**
@@ -238,5 +238,5 @@ private:
     bool mInverted = false;
     const bool kUsingBacklight;
     const bool kUsingHardwareSPI;
-    CustomFont *customFont;
+    LcdFont *currentFont;
 };

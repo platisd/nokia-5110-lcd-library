@@ -11,11 +11,41 @@
  */
 #pragma once
 #include <Arduino.h>
+#include "Nokia_LCD_Fonts.h"
 
-struct CustomFont {
-    virtual const unsigned char* getFont(char character) = 0;
-    virtual const uint8_t colSize() = 0;
-    virtual const uint8_t rowSize() = 0;
-    virtual const unsigned char* HSpacingChar() = 0;
-    virtual const uint8_t HSpacingSize() = 0;
+class LcdFont
+{
+    public:
+        LcdFont()
+            : kFontTable( Nokia_LCD_Fonts::kDefault_font )  //<- don't work
+            , hSpace( Nokia_LCD_Fonts::hSpace )
+            , hSpaceSize( Nokia_LCD_Fonts::hSpaceSize )
+            , kCharacterOffset( 0x20 )
+            , columnSize( Nokia_LCD_Fonts::kColumns_per_character )
+            , rowSize( Nokia_LCD_Fonts::kRows_per_character )
+        {
+        }
+        LcdFont(const unsigned char *hSpace,
+                    uint8_t hSpaceSize,
+                    uint8_t characterOffset,
+                    uint8_t pColumnSize,
+                    uint8_t pRowSize)
+            : hSpace( hSpace )
+            , hSpaceSize( hSpaceSize )
+            , kCharacterOffset( characterOffset )
+            , columnSize( pColumnSize )
+            , rowSize( pRowSize ) 
+        {
+        }
+        const unsigned char* getFont(char character) const
+        {
+            return *(kFontTable + (character - kCharacterOffset));
+        }
+        const uint8_t columnSize;
+        const uint8_t rowSize;
+        const unsigned char* hSpace;
+        const uint8_t hSpaceSize;        
+    private:
+        const unsigned char **kFontTable;  //<- not good
+        const uint8_t kCharacterOffset;
 };
