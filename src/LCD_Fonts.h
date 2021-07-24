@@ -10,7 +10,6 @@
  * On how to use this library, please refer to the `examples/` folder.`
  */
 #pragma once
-#include <Arduino.h>
 
 using GetFontCallback = const unsigned char* (*)(char);
 
