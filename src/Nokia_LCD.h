@@ -243,5 +243,5 @@ private:
     const bool kUsingBacklight;
     const bool kUsingHardwareSPI;
     uint8_t mX_cursor, mY_cursor;
-    const LcdFont *mcurrentFont;
+    const LcdFont *mCurrentFont;
 };
