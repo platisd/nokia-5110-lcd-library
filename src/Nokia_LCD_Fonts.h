@@ -8,9 +8,7 @@
 
 namespace Nokia_LCD_Fonts {
 const uint8_t kColumns_per_character = 5;
-const uint8_t kRows_per_character = 8;
 const unsigned char hSpace[] = {0x00};
-const uint8_t hSpaceSize = 1;
 
 /* Font table:
 This table contains the hex values that represent pixels for a

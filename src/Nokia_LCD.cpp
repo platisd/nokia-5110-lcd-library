@@ -15,14 +15,17 @@ namespace {
 const uint8_t kDisplay_max_width = 84;
 const uint8_t kDisplay_max_height = 48;
 
-const LcdFont nokiaFont{(const unsigned char*) Nokia_LCD_Fonts::kDefault_font, 
-                        Nokia_LCD_Fonts::kColumns_per_character,
-                        Nokia_LCD_Fonts::hSpace, 
-                        Nokia_LCD_Fonts::hSpaceSize};
+// Instantiate the default font
+const LcdFont nokiaFont { 
+    [](char c) { return Nokia_LCD_Fonts::kDefault_font[c - 0x20]; }, 
+    Nokia_LCD_Fonts::kColumns_per_character,
+    Nokia_LCD_Fonts::hSpace, 
+    1 
+};
 
 // Each row is made of 8-bit columns
 const unsigned int kTotal_rows =
-    kDisplay_max_height / Nokia_LCD_Fonts::kRows_per_character;
+    kDisplay_max_height / nokiaFont.rowSize;
 const unsigned int kTotal_columns = kDisplay_max_width;
 const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
 const char kNull_char = '\0';

@@ -12,32 +12,30 @@
 #pragma once
 #include <Arduino.h>
 #include "Nokia_LCD_Fonts.h"
+
+using GetFontCallback = const unsigned char* (*)(char);
+
 class LcdFont
 {
 public:
-    LcdFont(const unsigned char* fontTable, 
+    LcdFont(GetFontCallback getFontCallback,
             uint8_t columnSize,
             const unsigned char* hSpace,
-            uint8_t hSpaceSize,            
-            uint8_t rowSize = 8,
-            uint8_t characterOffset = 0x20)
+            uint8_t hSpaceSize)
         : hSpace{ hSpace }
         , hSpaceSize{ hSpaceSize }
-        , columnSize{ columnSize }
-        , rowSize{ rowSize }
-        , kFontTable{ fontTable }
-        , kCharacterOffset{ characterOffset }
+        , columnSize{ columnSize } 
+        , mGetFontCallback{ getFontCallback }
     {
     }
     const unsigned char* getFont(char character) const
     {   
-        return (kFontTable + (character - kCharacterOffset) * columnSize);
+        return mGetFontCallback(character);
     }
     const unsigned char* const hSpace;
     const uint8_t hSpaceSize;
     const uint8_t columnSize;
-    const uint8_t rowSize;
+    const uint8_t rowSize = 8;
 private:
-    const unsigned char *kFontTable;
-    const uint8_t kCharacterOffset;
+    const GetFontCallback mGetFontCallback;
 };
