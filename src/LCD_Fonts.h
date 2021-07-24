@@ -11,7 +11,6 @@
  */
 #pragma once
 #include <Arduino.h>
-#include "Nokia_LCD_Fonts.h"
 
 using GetFontCallback = const unsigned char* (*)(char);
 
