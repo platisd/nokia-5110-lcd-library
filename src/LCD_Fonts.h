@@ -12,41 +12,32 @@
 #pragma once
 #include <Arduino.h>
 #include "Nokia_LCD_Fonts.h"
-
 class LcdFont
 {
 public:
-    LcdFont()
-        : kFontTable( Nokia_LCD_Fonts::kDefault_font ) 
-        , hSpace( Nokia_LCD_Fonts::hSpace )
-        , hSpaceSize( Nokia_LCD_Fonts::hSpaceSize )
-        , kCharacterOffset( 0x20 )
-        , columnSize( Nokia_LCD_Fonts::kColumns_per_character )
-        , rowSize( Nokia_LCD_Fonts::kRows_per_character )
-    {
-    }
-    LcdFont(//const unsigned char **fontTable,
-            const unsigned char *hSpace,
-                uint8_t hSpaceSize,
-                uint8_t characterOffset,
-                uint8_t pColumnSize,
-                uint8_t pRowSize)
-        : hSpace( hSpace )
-        , hSpaceSize( hSpaceSize )
-        , kCharacterOffset( characterOffset )
-        , columnSize( pColumnSize )
-        , rowSize( pRowSize ) 
+    LcdFont(const unsigned char* fontTable, 
+            uint8_t columnSize,
+            const unsigned char* hSpace,
+            uint8_t hSpaceSize,            
+            uint8_t rowSize = 8,
+            uint8_t characterOffset = 0x20)
+        : hSpace{ hSpace }
+        , hSpaceSize{ hSpaceSize }
+        , columnSize{ columnSize }
+        , rowSize{ rowSize }
+        , kFontTable{ fontTable }
+        , kCharacterOffset{ characterOffset }
     {
     }
     const unsigned char* getFont(char character) const
-    {
-        return *(kFontTable + (character - kCharacterOffset));
+    {   
+        return (kFontTable + (character - kCharacterOffset) * columnSize);
     }
+    const unsigned char* const hSpace;
+    const uint8_t hSpaceSize;
     const uint8_t columnSize;
     const uint8_t rowSize;
-    const unsigned char* hSpace;
-    const uint8_t hSpaceSize;        
 private:
-    const unsigned char (*kFontTable)[Nokia_LCD_Fonts::kColumns_per_character];  //<- not good, I need other sizes here not only 5
+    const unsigned char *kFontTable;
     const uint8_t kCharacterOffset;
 };

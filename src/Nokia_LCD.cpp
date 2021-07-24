@@ -15,7 +15,10 @@ namespace {
 const uint8_t kDisplay_max_width = 84;
 const uint8_t kDisplay_max_height = 48;
 
-LcdFont nokiaFont;
+const LcdFont nokiaFont{(const unsigned char*) Nokia_LCD_Fonts::kDefault_font, 
+                        Nokia_LCD_Fonts::kColumns_per_character,
+                        Nokia_LCD_Fonts::hSpace, 
+                        Nokia_LCD_Fonts::hSpaceSize};
 
 // Each row is made of 8-bit columns
 const unsigned int kTotal_rows =
@@ -114,11 +117,15 @@ void Nokia_LCD::setContrast(uint8_t contrast) {
 
 void Nokia_LCD::setInverted(bool invert) { mInverted = invert; }
 
-void Nokia_LCD::setFont(LcdFont *font) { 
+void Nokia_LCD::setFont(const LcdFont *font) { 
     if (!font) {
         return;
     }
     currentFont = font;
+}
+
+void Nokia_LCD::setDefaultFont() {
+    currentFont = &nokiaFont;
 }
 
 void Nokia_LCD::setBacklight(bool enabled) {
