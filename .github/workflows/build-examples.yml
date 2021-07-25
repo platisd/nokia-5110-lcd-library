@@ -1,0 +1,26 @@
+name: Build examples
+
+on: [push, pull_request]
+
+jobs:
+  build-examples:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        board:
+          - platform: arduino:avr
+            name: uno
+            url: http://downloads.arduino.cc/packages/package_index.json
+          - platform: ATTinyCore:avr
+            name: attinyx5
+            url: http://drazzy.com/package_drazzy.com_index.json
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile library examples
+        uses: arduino/compile-sketches@main
+        with:
+          platforms: |
+            - name: ${{ matrix.board.platform }}
+              source-url: ${{ matrix.board.url }}
+          fqbn: ${{ matrix.board.platform }}:${{ matrix.board.name }}
