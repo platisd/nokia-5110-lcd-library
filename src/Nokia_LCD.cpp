@@ -25,7 +25,7 @@ const LcdFont nokiaFont {
 
 // Each row is made of 8-bit columns
 const unsigned int kTotal_rows =
-    kDisplay_max_height / LcdFont::ROWS_PER_CHARACTER;
+    kDisplay_max_height / Nokia_LCD_Fonts::kRows_per_character;
 const unsigned int kTotal_columns = kDisplay_max_width;
 const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
 const char kNull_char = '\0';

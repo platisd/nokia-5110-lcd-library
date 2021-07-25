@@ -7,6 +7,7 @@
 #endif
 
 namespace Nokia_LCD_Fonts {
+const uint8_t kRows_per_character = 8;
 const uint8_t kColumns_per_character = 5;
 const unsigned char hSpace[] = {0x00};
 

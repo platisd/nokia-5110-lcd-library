@@ -8,6 +8,11 @@
 
 #include <LCD_Fonts.h>
 
+/**
+ * This example uses a font originally created by the author here: 
+ * https://github.com/gavinlyonsrepo/NOKIA5110_TEXT
+ **/
+
 namespace Bold_LCD_Fonts {
     const uint8_t kColumns_per_character = 7;
     const unsigned char hSpace[] = {0x00};

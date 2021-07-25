@@ -8,6 +8,11 @@
 
 #include <LCD_Fonts.h>
 
+/**
+ * This example uses a font originally created by the author here: 
+ * https://github.com/risitt/nokia5110Flex 
+ **/
+
 namespace Glyphs_LCD_Fonts {
     const uint8_t kColumns_per_character = 6;
     const unsigned char hSpaceSize = 0;
@@ -287,7 +292,7 @@ namespace Glyphs_LCD_Fonts {
     const LcdFont GlyphFont { 
         [](char c) { return kFont_Table[(uint8_t) c]; }, 
         kColumns_per_character,
-        NULL,                       // This font has no aditional horizontal spacing
+        nullptr,                       // This font has no aditional horizontal spacing
         hSpaceSize 
     };
 
