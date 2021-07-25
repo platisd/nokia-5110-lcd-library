@@ -9,7 +9,6 @@ Nokia_LCD lcd(13 /* CLK */, 12 /* DIN */, 11 /* DC */, 10 /* CE */, 9 /* RST */,
  * Nokia_LCD lcd(13, 12, 11, 10, 9);
 */
 
-
 /**
  * To change the font, create an object that represents it. 
  * Do it in the main file or in the header font files like SmallFont and GlyphFont.
