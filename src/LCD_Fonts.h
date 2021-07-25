@@ -16,6 +16,8 @@ using GetFontCallback = const unsigned char* (*)(char);
 class LcdFont
 {
 public:
+    const static uint8_t ROWS_PER_CHARACTER = 8;
+    
     LcdFont(GetFontCallback getFontCallback,
             uint8_t columnSize,
             const unsigned char* hSpace,
@@ -33,7 +35,6 @@ public:
     const unsigned char* const hSpace;
     const uint8_t hSpaceSize;
     const uint8_t columnSize;
-    const uint8_t rowSize = 8;
 private:
     const GetFontCallback mGetFontCallback;
 };
