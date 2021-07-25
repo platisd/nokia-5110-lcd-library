@@ -1,4 +1,4 @@
-# Nokia 5110 LCD library
+# Nokia 5110 LCD library [![Build examples](https://github.com/platisd/nokia-5110-lcd-library/actions/workflows/build-examples.yml/badge.svg)](https://github.com/platisd/nokia-5110-lcd-library/actions/workflows/build-examples.yml)
 An Arduino library for driving the monochrome Nokia 5110 LCD. It has a rather small footprint and is therefore able to run on many ATTiny microcontrollers.
 
 ## Why
