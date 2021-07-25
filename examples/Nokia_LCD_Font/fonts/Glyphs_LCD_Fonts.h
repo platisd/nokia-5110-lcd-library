@@ -11,6 +11,7 @@
 /**
  * This example uses a font originally created by the author here: 
  * https://github.com/risitt/nokia5110Flex 
+ * under GNU Lesser General Public License (LGPL) V2.1
  **/
 
 namespace Glyphs_LCD_Fonts {
