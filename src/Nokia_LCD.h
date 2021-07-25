@@ -12,6 +12,7 @@
 #pragma once
 #include <Arduino.h>
 #include <stdint.h>
+#include "LCD_Fonts.h"
 
 class Nokia_LCD {
 public:
@@ -209,6 +210,17 @@ public:
      */
     void setBacklight(bool enabled);
 
+    /**
+     * Sets a different font to be displayed.  
+     * @param font A reference to a LcdFont object
+     */
+    void setFont(const LcdFont *font);
+
+    /**
+     * Sets the default Nokia font  
+     */
+    void setDefaultFont();
+
 private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
@@ -227,8 +239,9 @@ private:
     bool printCharacter(char character);
 
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
-    uint8_t mX_cursor, mY_cursor;
     bool mInverted = false;
     const bool kUsingBacklight;
     const bool kUsingHardwareSPI;
+    uint8_t mX_cursor, mY_cursor;
+    const LcdFont *mCurrentFont;
 };
