@@ -7,6 +7,7 @@
 #endif
 #include <SPI.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "Nokia_LCD.h"
 #include "Nokia_LCD_Fonts.h"
@@ -26,6 +27,7 @@ const unsigned int kTotal_rows =
 const unsigned int kTotal_columns = kDisplay_max_width;
 const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
 const char kNull_char = '\0';
+const uint8_t kMax_number_length = 11;  // Size of unsigned long (10) + null
 }  // namespace
 
 Nokia_LCD::Nokia_LCD(const uint8_t clk_pin, const uint8_t din_pin,
@@ -315,15 +317,8 @@ bool Nokia_LCD::print(unsigned long number) {
     // there are in a number.
     const uint8_t length_as_string =
         static_cast<uint8_t>(log10(number)) + 1 + sizeof(kNull_char);
-
-    char number_as_string[length_as_string] = {0};
-    int8_t string_index = length_as_string - 1;   // Start from the end
-    number_as_string[string_index] = kNull_char;  // Null terminated string
-    while (--string_index >= 0) {
-        const char digit = static_cast<char>(number % base);
-        number /= base;
-        number_as_string[string_index] = '0' + digit;
-    }
+    char number_as_string[kMax_number_length] = {0};
+    snprintf(number_as_string, length_as_string, "%lu", number);
 
     return print(number_as_string);
 }
