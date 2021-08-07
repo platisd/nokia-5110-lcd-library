@@ -14,6 +14,12 @@
 #include <stdint.h>
 #include "LCD_Fonts.h"
 
+namespace {
+    // Display constants
+    const uint8_t kDisplay_max_width = 84;
+    const uint8_t kDisplay_max_height = 48;
+}
+
 class Nokia_LCD {
 public:
     /**
@@ -211,10 +217,9 @@ public:
     /**
      * Sends the specified byte as (presentable) data to the display.
      * @param data           The byte to be sent as presentable data.
-     * @param update_cursor  If false, the cursor position will be updated by the caller 
      * @return               True if out of bounds error | False otherwise
      */
-    bool sendData(const unsigned char data, const bool update_cursor = true);
+    bool sendData(const unsigned char data);
 
     /**
      * Sets the flag to invert colors
@@ -253,16 +258,25 @@ private:
     bool send(const unsigned char lcd_byte, const bool is_data, const bool update_cursor = true);
 
     /**
+     * Sends the specified byte as (presentable) data to the display.
+     * @param data           The byte to be sent as presentable data.
+     * @param update_cursor  If false, the cursor position will be updated by the caller 
+     * @return               True if out of bounds error | False otherwise
+     */
+    bool sendData(const unsigned char data, const bool update_cursor);
+
+    /**
      * Updates mX_cursor and mY_cursor position. By default it uses the whole 
      * screen width in order to calculate row changing and out of bounds.
      * 
      * @param x_start_position      Left alignment position. Used for drawing 
      *                              bitmaps smaller than screen width. Defaults to zero.
+     *                              Defaults to zero.
      * @param x_end_position        Position where the cursor will consider a line 
      *                              breaking. When drawing a bitmap, it is the image width.
 *                                   Defaults to screen width.
      */
-    bool updateCursorPosition(const unsigned int x_start_position, const unsigned int x_end_position);
+    bool updateCursorPosition(const unsigned int x_start_position = 0, const unsigned int x_end_position = kDisplay_max_width);
 
     /**
      * Prints the specified character

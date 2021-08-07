@@ -13,9 +13,6 @@
 #include "Nokia_LCD_Fonts.h"
 
 namespace {
-const uint8_t kDisplay_max_width = 84;
-const uint8_t kDisplay_max_height = 48;
-
 // Instantiate the default font
 const LcdFont nokiaFont{
     [](char c) { return Nokia_LCD_Fonts::kDefault_font[c - 0x20]; },
@@ -238,7 +235,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_width,
                      const bool read_from_progmem) {
     bool out_of_bounds = false;
-    const unsigned int currentX = mX_cursor;
+    const unsigned int x_start_position = mX_cursor;
     for (unsigned int i = 0; i < bitmap_size; i++) {
         unsigned char pixel =
             read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
@@ -246,7 +243,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
             pixel = ~pixel;
         }
         sendData(pixel, false);
-        out_of_bounds = updateCursorPosition(currentX, bitmap_width) || out_of_bounds; 
+        out_of_bounds = updateCursorPosition(x_start_position, bitmap_width) || out_of_bounds; 
     }
 
     return out_of_bounds;
@@ -256,8 +253,9 @@ void Nokia_LCD::sendCommand(const unsigned char command) {
     send(command, false);
 }
 
-bool Nokia_LCD::sendData(const unsigned char data, const bool update_cursor) { return send(data, true, update_cursor); }
+bool Nokia_LCD::sendData(const unsigned char data) { return sendData(data, true); }
 
+bool Nokia_LCD::sendData(const unsigned char data, const bool update_cursor) { return send(data, true, update_cursor); }
 
 bool Nokia_LCD::updateCursorPosition(const unsigned int x_start_position, const unsigned int x_end_position) {
     bool out_of_bounds = false;
@@ -305,7 +303,7 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data, const boo
         return false;
     }
 
-    return updateCursorPosition(0, kTotal_columns);
+    return updateCursorPosition();
 }
 
 bool Nokia_LCD::print(int number) {
@@ -333,7 +331,6 @@ bool Nokia_LCD::print(long number) {
 }
 
 bool Nokia_LCD::print(unsigned long number) {
-    const uint8_t base = 10;  // We shall treat all numbers as decimals
     // The log base 10 of the number increased by 1 indicates how many digits
     // there are in a number.
     const uint8_t length_as_string =
