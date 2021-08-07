@@ -203,18 +203,6 @@ public:
               const bool read_from_progmem = true);
 
     /**
-     * Updates mX_cursor and mY_cursor position. By default it uses the whole 
-     * screen width in order to calculate row changing and out of bounds.
-     * 
-     * @param x_start_position      Left alignment position. Used for drawing 
-     *                              bitmaps smaller than screen width. Defaults to zero.
-     * @param x_end_position        Position where the cursor will consider a line 
-     *                              breaking. When drawing a bitmap, it is the image width.
-*                                   Defaults to screen width.
-     */
-    bool updateCursorPosition(const unsigned int x_start_position, const unsigned int x_end_position);
-
-    /**
      * Sends the specified byte as a command to the display.
      * @param command The byte to be sent as a command.
      */
@@ -222,10 +210,11 @@ public:
 
     /**
      * Sends the specified byte as (presentable) data to the display.
-     * @param data  The byte to be sent as presentable data.
-     * @return      True if out of bounds error | False otherwise
+     * @param data           The byte to be sent as presentable data.
+     * @param update_cursor  If false, the cursor position will be updated by the caller 
+     * @return               True if out of bounds error | False otherwise
      */
-    bool sendData(const unsigned char data);
+    bool sendData(const unsigned char data, const bool update_cursor = true);
 
     /**
      * Sets the flag to invert colors
@@ -262,6 +251,18 @@ private:
      * @return                True if out of bounds error | False otherwise
      */
     bool send(const unsigned char lcd_byte, const bool is_data, const bool update_cursor = true);
+
+    /**
+     * Updates mX_cursor and mY_cursor position. By default it uses the whole 
+     * screen width in order to calculate row changing and out of bounds.
+     * 
+     * @param x_start_position      Left alignment position. Used for drawing 
+     *                              bitmaps smaller than screen width. Defaults to zero.
+     * @param x_end_position        Position where the cursor will consider a line 
+     *                              breaking. When drawing a bitmap, it is the image width.
+*                                   Defaults to screen width.
+     */
+    bool updateCursorPosition(const unsigned int x_start_position, const unsigned int x_end_position);
 
     /**
      * Prints the specified character
