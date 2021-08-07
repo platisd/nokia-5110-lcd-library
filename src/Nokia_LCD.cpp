@@ -229,14 +229,24 @@ bool Nokia_LCD::printCharacter(char character) {
 bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_size,
                      const bool read_from_progmem) {
+    
+    return Nokia_LCD::draw(bitmap, bitmap_size, kTotal_columns, read_from_progmem);
+}
+
+bool Nokia_LCD::draw(const unsigned char bitmap[],
+                     const unsigned int bitmap_size,
+                     const unsigned int bitmap_width,
+                     const bool read_from_progmem) {
     bool out_of_bounds = false;
+    const unsigned int currentX = mX_cursor;
     for (unsigned int i = 0; i < bitmap_size; i++) {
         unsigned char pixel =
             read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
         if (mInverted) {
             pixel = ~pixel;
         }
-        out_of_bounds = sendData(pixel) || out_of_bounds;
+        send(pixel, true, false);
+        out_of_bounds = updateCursorPosition(currentX, bitmap_width) || out_of_bounds; 
     }
 
     return out_of_bounds;
@@ -248,7 +258,27 @@ void Nokia_LCD::sendCommand(const unsigned char command) {
 
 bool Nokia_LCD::sendData(const unsigned char data) { return send(data, true); }
 
-bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
+
+bool Nokia_LCD::updateCursorPosition(const unsigned int x_start_position, const unsigned int x_end_position) {
+    bool out_of_bounds = false;
+
+    mX_cursor = (mX_cursor + 1) % (x_end_position + x_start_position);  // Column
+    // Calculate the cursor position after the byte being sent
+    if (mX_cursor == 0) {
+        mX_cursor = x_start_position;      // return X to the initial position 
+        // If the column just became 0, this means the row should change
+        mY_cursor = (mY_cursor + 1) % kTotal_rows;  // Row
+        if (mY_cursor == 0) {
+            // If we are back to row 0 again, then we just went out of bounds
+            out_of_bounds = true;
+        }
+    }
+
+    setCursor(mX_cursor, mY_cursor);     // update the cursor position   
+    return out_of_bounds;
+}
+
+bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data, const bool update_cursor) {
     // Tell the LCD that we are writing either to data or a command
     digitalWrite(kDc_pin, is_data);
 
@@ -269,22 +299,11 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data) {
 
     // If we just sent the command, there was no out-of-bounds error
     // and we don't have to calculate the new cursor position
-    if (!is_data) {
+    if (!is_data || !update_cursor) {
         return false;
     }
 
-    // Calculate the cursor position after the byte being sent
-    mX_cursor = (mX_cursor + 1) % kTotal_columns;  // Column
-    if (mX_cursor == 0) {
-        // If the column just became 0, this means the row should change
-        mY_cursor = (mY_cursor + 1) % kTotal_rows;  // Row
-        if (mY_cursor == 0) {
-            // If we are back to row 0 again, then we just went out of bounds
-            return true;
-        }
-    }
-
-    return false;
+    return updateCursorPosition(0, kTotal_columns);
 }
 
 bool Nokia_LCD::print(int number) {
