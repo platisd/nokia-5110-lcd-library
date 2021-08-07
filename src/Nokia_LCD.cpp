@@ -235,7 +235,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_width,
                      const bool read_from_progmem) {
     bool out_of_bounds = false;
-    const unsigned int x_start_position = mX_cursor;
+    const unsigned int initialX = mX_cursor;
     for (unsigned int i = 0; i < bitmap_size; i++) {
         unsigned char pixel =
             read_from_progmem ? pgm_read_byte_near(bitmap + i) : bitmap[i];
@@ -243,7 +243,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
             pixel = ~pixel;
         }
         sendData(pixel, false);
-        out_of_bounds = updateCursorPosition(x_start_position, bitmap_width) || out_of_bounds; 
+        out_of_bounds = updateCursorPosition(initialX, bitmap_width) || out_of_bounds; 
     }
 
     return out_of_bounds;
