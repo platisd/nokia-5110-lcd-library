@@ -14,7 +14,7 @@
 #include <stdint.h>
 #include "LCD_Fonts.h"
 
-namespace {
+namespace nokia_lcd {
     // Display constants
     const uint8_t kDisplay_max_width = 84;
     const uint8_t kDisplay_max_height = 48;
@@ -197,16 +197,16 @@ public:
      * @param  bitmap            The bitmap to be displayed
      * @param  bitmap_size       The size of the bitmap to be displayed up to
      *                           504 bits
-     * @param  bitmap_width      The bitmap width. By default uses the screen width.
-     * @param read_from_progmem  Whether the bitmap is stored in flash memory
+     * @param  bitmap_width      The bitmap width.
+     * @param  read_from_progmem Whether the bitmap is stored in flash memory
      *                           instead of SRAM. Default read from flash.
      * @return                   True if out of bounds error | False otherwise
      */
-    bool draw(const unsigned char bitmap[],
+    bool draw(const unsigned char bitmap[], 
               const unsigned int bitmap_size,
-              const unsigned int bitmap_width = kDisplay_max_width,
+              const unsigned int bitmap_width,
               const bool read_from_progmem = true);
-
+    
     /**
      * Sends the specified byte as a command to the display.
      * @param command The byte to be sent as a command.
@@ -275,7 +275,7 @@ private:
      *                              breaking. When drawing a bitmap, it is the image width.
 *                                   Defaults to screen width.
      */
-    bool updateCursorPosition(const unsigned int x_start_position = 0, const unsigned int x_end_position = kDisplay_max_width);
+    bool updateCursorPosition(const unsigned int x_start_position = 0, const unsigned int x_end_position = nokia_lcd::kDisplay_max_width);
 
     /**
      * Prints the specified character

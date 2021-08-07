@@ -20,9 +20,9 @@ const LcdFont nokiaFont{
 
 // Each row is made of 8-bit columns
 const unsigned int kTotal_rows =
-    kDisplay_max_height / Nokia_LCD_Fonts::kRows_per_character;
-const unsigned int kTotal_columns = kDisplay_max_width;
-const unsigned int kTotal_bits = kDisplay_max_width * kTotal_rows;
+    nokia_lcd::kDisplay_max_height / Nokia_LCD_Fonts::kRows_per_character;
+const unsigned int kTotal_columns = nokia_lcd::kDisplay_max_width;
+const unsigned int kTotal_bits = nokia_lcd::kDisplay_max_width * kTotal_rows;
 const char kNull_char = '\0';
 const uint8_t kMax_number_length = 11;  // Size of unsigned long (10) + null
 }  // namespace
@@ -133,7 +133,7 @@ void Nokia_LCD::setBacklight(bool enabled) {
 }
 
 bool Nokia_LCD::setCursor(uint8_t x, uint8_t y) {
-    if (x >= kDisplay_max_width || y >= kTotal_rows) {
+    if (x >= nokia_lcd::kDisplay_max_width || y >= kTotal_rows) {
         return false;
     }
 
@@ -226,8 +226,8 @@ bool Nokia_LCD::printCharacter(char character) {
 bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_size,
                      const bool read_from_progmem) {
-    
-    return Nokia_LCD::draw(bitmap, bitmap_size, read_from_progmem);
+
+    return Nokia_LCD::draw(bitmap, bitmap_size, nokia_lcd::kDisplay_max_width, read_from_progmem);
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
