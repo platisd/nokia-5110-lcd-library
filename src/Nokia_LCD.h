@@ -197,15 +197,14 @@ public:
      * @param  bitmap            The bitmap to be displayed
      * @param  bitmap_size       The size of the bitmap to be displayed up to
      *                           504 bits
-     * @param  bitmap_width      The bitmap width. Used to draw on any position 
-     *                           of screen
+     * @param  bitmap_width      The bitmap width. By default uses the screen width.
      * @param read_from_progmem  Whether the bitmap is stored in flash memory
      *                           instead of SRAM. Default read from flash.
      * @return                   True if out of bounds error | False otherwise
      */
     bool draw(const unsigned char bitmap[],
               const unsigned int bitmap_size,
-              const unsigned int bitmap_width,
+              const unsigned int bitmap_width = kDisplay_max_width,
               const bool read_from_progmem = true);
 
     /**

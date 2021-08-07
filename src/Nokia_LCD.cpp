@@ -227,7 +227,7 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
                      const unsigned int bitmap_size,
                      const bool read_from_progmem) {
     
-    return Nokia_LCD::draw(bitmap, bitmap_size, kTotal_columns, read_from_progmem);
+    return Nokia_LCD::draw(bitmap, bitmap_size, read_from_progmem);
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
