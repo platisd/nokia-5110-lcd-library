@@ -312,7 +312,6 @@ bool Nokia_LCD::print(long number) {
 }
 
 bool Nokia_LCD::print(unsigned long number) {
-    const uint8_t base = 10;  // We shall treat all numbers as decimals
     // The log base 10 of the number increased by 1 indicates how many digits
     // there are in a number.
     const uint8_t length_as_string =
