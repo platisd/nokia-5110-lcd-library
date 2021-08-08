@@ -12,13 +12,14 @@
 #pragma once
 #include <Arduino.h>
 #include <stdint.h>
+
 #include "LCD_Fonts.h"
 
 namespace nokia_lcd {
-    // Display constants
-    const uint8_t kDisplay_max_width = 84;
-    const uint8_t kDisplay_max_height = 48;
-}
+// Display constants
+const uint8_t kDisplay_max_width = 84;
+const uint8_t kDisplay_max_height = 48;
+}  // namespace nokia_lcd
 
 class Nokia_LCD {
 public:
@@ -186,13 +187,12 @@ public:
      *                           instead of SRAM. Default read from flash.
      * @param  bitmap_width      The bitmap width.
      * @return                   True if out of bounds error | False otherwise
-     * 
+     *
      */
-    bool draw(const unsigned char bitmap[], 
-              const unsigned int bitmap_size,
+    bool draw(const unsigned char bitmap[], const unsigned int bitmap_size,
               const bool read_from_progmem = true,
               const unsigned int bitmap_width = nokia_lcd::kDisplay_max_width);
-    
+
     /**
      * Sends the specified byte as a command to the display.
      * @param command The byte to be sent as a command.
@@ -221,13 +221,13 @@ public:
     void setBacklight(bool enabled);
 
     /**
-     * Sets a different font to be displayed.  
+     * Sets a different font to be displayed.
      * @param font A reference to a LcdFont object
      */
     void setFont(const LcdFont *font);
 
     /**
-     * Sets the default Nokia font  
+     * Sets the default Nokia font
      */
     void setDefaultFont();
 
@@ -237,31 +237,36 @@ private:
      * command.
      * @param lcd_byte        The byte to be send to the LCD
      * @param is_data         Whether the byte to be send is data (or a command)
-     * @param update_cursor   If false, the cursor position will be updated by the caller 
+     * @param update_cursor   If false, the cursor position will be updated by
+     * the caller
      * @return                True if out of bounds error | False otherwise
      */
-    bool send(const unsigned char lcd_byte, const bool is_data, const bool update_cursor = true);
+    bool send(const unsigned char lcd_byte, const bool is_data,
+              const bool update_cursor = true);
 
     /**
      * Sends the specified byte as (presentable) data to the display.
      * @param data           The byte to be sent as presentable data.
-     * @param update_cursor  If false, the cursor position will be updated by the caller 
+     * @param update_cursor  If false, the cursor position will be updated by
+     * the caller
      * @return               True if out of bounds error | False otherwise
      */
     bool sendData(const unsigned char data, const bool update_cursor);
 
     /**
-     * Updates mX_cursor and mY_cursor position. By default it uses the whole 
+     * Updates mX_cursor and mY_cursor position. By default it uses the whole
      * screen width in order to calculate row changing and out of bounds.
-     * 
-     * @param x_start_position      Left alignment position. Used for drawing 
-     *                              bitmaps smaller than screen width. Defaults to zero.
-     *                              Defaults to zero.
-     * @param x_end_position        Position where the cursor will consider a line 
-     *                              breaking. When drawing a bitmap, it is the image width.
-*                                   Defaults to screen width.
+     *
+     * @param x_start_position      Left alignment position. Used for drawing
+     *                              bitmaps smaller than screen width. Defaults
+     * to zero. Defaults to zero.
+     * @param x_end_position        Position where the cursor will consider a
+     * line breaking. When drawing a bitmap, it is the image width. Defaults to
+     * screen width.
      */
-    bool updateCursorPosition(const unsigned int x_start_position = 0, const unsigned int x_end_position = nokia_lcd::kDisplay_max_width);
+    bool updateCursorPosition(
+        const unsigned int x_start_position = 0,
+        const unsigned int x_end_position = nokia_lcd::kDisplay_max_width);
 
     /**
      * Prints the specified character

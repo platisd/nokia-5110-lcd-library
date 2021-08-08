@@ -224,7 +224,7 @@ bool Nokia_LCD::printCharacter(char character) {
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
-                     const unsigned int bitmap_size,                     
+                     const unsigned int bitmap_size,
                      const bool read_from_progmem,
                      const unsigned int bitmap_width) {
     bool out_of_bounds = false;
@@ -236,7 +236,8 @@ bool Nokia_LCD::draw(const unsigned char bitmap[],
             pixel = ~pixel;
         }
         sendData(pixel, false);
-        out_of_bounds = updateCursorPosition(initialX, bitmap_width) || out_of_bounds; 
+        out_of_bounds =
+            updateCursorPosition(initialX, bitmap_width) || out_of_bounds;
     }
 
     return out_of_bounds;
@@ -246,19 +247,28 @@ void Nokia_LCD::sendCommand(const unsigned char command) {
     send(command, false);
 }
 
-bool Nokia_LCD::sendData(const unsigned char data) { return sendData(data, true); }
+bool Nokia_LCD::sendData(const unsigned char data) {
+    return sendData(data, true);
+}
 
-bool Nokia_LCD::sendData(const unsigned char data, const bool update_cursor) { return send(data, true, update_cursor); }
+bool Nokia_LCD::sendData(const unsigned char data, const bool update_cursor) {
+    return send(data, true, update_cursor);
+}
 
-bool Nokia_LCD::updateCursorPosition(const unsigned int x_start_position, const unsigned int x_end_position) {
+bool Nokia_LCD::updateCursorPosition(const unsigned int x_start_position,
+                                     const unsigned int x_end_position) {
     bool out_of_bounds = false;
 
-    mX_cursor = (mX_cursor + 1) % (x_start_position + x_end_position);  // Used to determine if X reached the right margin. 
-                                                                        // E.g. starts drawing on column 10, an image of 25px width, 
-                                                                        // X will reach the right margin at 35px, so we have to break line
+    mX_cursor =
+        (mX_cursor + 1) %
+        (x_start_position +
+         x_end_position);  // Used to determine if X reached the right margin.
+                           // E.g. starts drawing on column 10, an image of 25px
+                           // width, X will reach the right margin at 35px, so
+                           // we have to break line
     // Calculate the cursor position after the byte being sent
     if (mX_cursor == 0) {
-        mX_cursor = x_start_position;      // return X to the initial position 
+        mX_cursor = x_start_position;  // return X to the initial position
         // If the column just became 0, this means the row should change
         mY_cursor = (mY_cursor + 1) % kTotal_rows;  // Row
         if (mY_cursor == 0) {
@@ -267,11 +277,12 @@ bool Nokia_LCD::updateCursorPosition(const unsigned int x_start_position, const 
         }
     }
 
-    setCursor(mX_cursor, mY_cursor);     // updates the cursor position   
+    setCursor(mX_cursor, mY_cursor);  // updates the cursor position
     return out_of_bounds;
 }
 
-bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data, const bool update_cursor) {
+bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data,
+                     const bool update_cursor) {
     // Tell the LCD that we are writing either to data or a command
     digitalWrite(kDc_pin, is_data);
 
