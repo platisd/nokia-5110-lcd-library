@@ -224,16 +224,9 @@ bool Nokia_LCD::printCharacter(char character) {
 }
 
 bool Nokia_LCD::draw(const unsigned char bitmap[],
-                     const unsigned int bitmap_size,
-                     const bool read_from_progmem) {
-
-    return Nokia_LCD::draw(bitmap, bitmap_size, nokia_lcd::kDisplay_max_width, read_from_progmem);
-}
-
-bool Nokia_LCD::draw(const unsigned char bitmap[],
-                     const unsigned int bitmap_size,
-                     const unsigned int bitmap_width,
-                     const bool read_from_progmem) {
+                     const unsigned int bitmap_size,                     
+                     const bool read_from_progmem,
+                     const unsigned int bitmap_width) {
     bool out_of_bounds = false;
     const unsigned int initialX = mX_cursor;
     for (unsigned int i = 0; i < bitmap_size; i++) {

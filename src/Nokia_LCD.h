@@ -184,28 +184,14 @@ public:
      *                           504 bits
      * @param read_from_progmem  Whether the bitmap is stored in flash memory
      *                           instead of SRAM. Default read from flash.
-     * @return                   True if out of bounds error | False otherwise
-     */
-    bool draw(const unsigned char bitmap[], const unsigned int bitmap_size,
-              const bool read_from_progmem = true);
-    /**
-     * Draws the supplied bitmap on the screen starting at the current cursor
-     * location. The bitmap can contain up to 504 bits which is the amount of
-     * pixels in the display. When bitmap is smaller than screen width, is 
-     * necessary to inform the width.
-     *  
-     * @param  bitmap            The bitmap to be displayed
-     * @param  bitmap_size       The size of the bitmap to be displayed up to
-     *                           504 bits
      * @param  bitmap_width      The bitmap width.
-     * @param  read_from_progmem Whether the bitmap is stored in flash memory
-     *                           instead of SRAM. Default read from flash.
      * @return                   True if out of bounds error | False otherwise
+     * 
      */
     bool draw(const unsigned char bitmap[], 
               const unsigned int bitmap_size,
-              const unsigned int bitmap_width,
-              const bool read_from_progmem = true);
+              const bool read_from_progmem = true,
+              const unsigned int bitmap_width = nokia_lcd::kDisplay_max_width);
     
     /**
      * Sends the specified byte as a command to the display.
