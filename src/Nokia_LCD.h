@@ -14,6 +14,12 @@
 #include <stdint.h>
 #include "LCD_Fonts.h"
 
+namespace nokia_lcd {
+    // Display constants
+    const uint8_t kDisplay_max_width = 84;
+    const uint8_t kDisplay_max_height = 48;
+}
+
 class Nokia_LCD {
 public:
     /**
@@ -178,11 +184,15 @@ public:
      *                           504 bits
      * @param read_from_progmem  Whether the bitmap is stored in flash memory
      *                           instead of SRAM. Default read from flash.
+     * @param  bitmap_width      The bitmap width.
      * @return                   True if out of bounds error | False otherwise
+     * 
      */
-    bool draw(const unsigned char bitmap[], const unsigned int bitmap_size,
-              const bool read_from_progmem = true);
-
+    bool draw(const unsigned char bitmap[], 
+              const unsigned int bitmap_size,
+              const bool read_from_progmem = true,
+              const unsigned int bitmap_width = nokia_lcd::kDisplay_max_width);
+    
     /**
      * Sends the specified byte as a command to the display.
      * @param command The byte to be sent as a command.
@@ -191,8 +201,8 @@ public:
 
     /**
      * Sends the specified byte as (presentable) data to the display.
-     * @param data  The byte to be sent as presentable data.
-     * @return      True if out of bounds error | False otherwise
+     * @param data           The byte to be sent as presentable data.
+     * @return               True if out of bounds error | False otherwise
      */
     bool sendData(const unsigned char data);
 
@@ -225,11 +235,33 @@ private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
      * command.
-     * @param lcd_byte The byte to be send to the LCD
-     * @param is_data  Whether the byte to be send is data (or a command)
-     * @return         True if out of bounds error | False otherwise
+     * @param lcd_byte        The byte to be send to the LCD
+     * @param is_data         Whether the byte to be send is data (or a command)
+     * @param update_cursor   If false, the cursor position will be updated by the caller 
+     * @return                True if out of bounds error | False otherwise
      */
-    bool send(const unsigned char lcd_byte, const bool is_data);
+    bool send(const unsigned char lcd_byte, const bool is_data, const bool update_cursor = true);
+
+    /**
+     * Sends the specified byte as (presentable) data to the display.
+     * @param data           The byte to be sent as presentable data.
+     * @param update_cursor  If false, the cursor position will be updated by the caller 
+     * @return               True if out of bounds error | False otherwise
+     */
+    bool sendData(const unsigned char data, const bool update_cursor);
+
+    /**
+     * Updates mX_cursor and mY_cursor position. By default it uses the whole 
+     * screen width in order to calculate row changing and out of bounds.
+     * 
+     * @param x_start_position      Left alignment position. Used for drawing 
+     *                              bitmaps smaller than screen width. Defaults to zero.
+     *                              Defaults to zero.
+     * @param x_end_position        Position where the cursor will consider a line 
+     *                              breaking. When drawing a bitmap, it is the image width.
+*                                   Defaults to screen width.
+     */
+    bool updateCursorPosition(const unsigned int x_start_position = 0, const unsigned int x_end_position = nokia_lcd::kDisplay_max_width);
 
     /**
      * Prints the specified character
