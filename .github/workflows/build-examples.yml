@@ -27,3 +27,5 @@ jobs:
           cli-compile-flags: |
             - "--build-property"
             - "compiler.cpp.extra_flags=-Werror"
+            - "--build-property"
+            - "compiler.cpp.extra_flags=-Wno-unused-variable"
