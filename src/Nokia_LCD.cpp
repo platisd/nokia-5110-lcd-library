@@ -1,5 +1,5 @@
 // If we are not building for AVR architectures ignore PROGMEM
-#if defined(__AVR__)
+#if __has_include(<avr/pgmspace.h>)
 #include <avr/pgmspace.h>
 #else
 #define PROGMEM
@@ -98,6 +98,10 @@ void Nokia_LCD::begin() {
     // Reset the LCD to a known state
     digitalWrite(kRst_pin, LOW);
     digitalWrite(kRst_pin, HIGH);
+
+    if (kUsingHardwareSPI) {
+        SPI.begin();
+    }
 
     sendCommand(0x21);  // Tell LCD extended commands follow
     sendCommand(0xB0);  // Set LCD Vop (Contrast)
@@ -289,12 +293,10 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data,
     // Send the byte
     digitalWrite(kCe_pin, LOW);
     if (kUsingHardwareSPI) {
-        SPI.begin();
-        SPI.setClockDivider(SPI_CLOCK_DIV4);
-        SPI.setDataMode(SPI_MODE0);
-        SPI.setBitOrder(MSBFIRST);
+        constexpr uint32_t kSPiClockSpeed{F_CPU / 4U};
+        SPI.beginTransaction(SPISettings{kSPiClockSpeed, MSBFIRST, SPI_MODE0});
         SPI.transfer(lcd_byte);
-        SPI.end();
+        SPI.endTransaction();
     } else {
         shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
     }
