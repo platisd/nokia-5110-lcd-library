@@ -231,6 +231,14 @@ public:
      */
     void setDefaultFont();
 
+    /**
+     * couple()/uncouple() is useful for improving speed and 
+     * for accessing two or more displays on the same pins
+     * (but different CE pins)
+     */
+    void couple(bool yes = true);
+    void uncouple();
+
 private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
@@ -275,6 +283,9 @@ private:
      */
     bool printCharacter(char character);
 
+protected:
+    bool coupled = false;
+private:
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
     bool mInverted = false;
     const bool kUsingBacklight;
