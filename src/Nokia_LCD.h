@@ -249,7 +249,7 @@ private:
      * the caller
      * @return                True if out of bounds error | False otherwise
      */
-    bool send(const unsigned char lcd_byte, const bool is_data,
+    virtual bool send(const unsigned char lcd_byte, const bool is_data,
               const bool update_cursor = true);
 
     /**
@@ -272,6 +272,7 @@ private:
      * line breaking. When drawing a bitmap, it is the image width. Defaults to
      * screen width.
      */
+protected:
     bool updateCursorPosition(
         const unsigned int x_start_position = 0,
         const unsigned int x_end_position = nokia_lcd::kDisplay_max_width);
@@ -281,15 +282,18 @@ private:
      * @param  character The character to be printed
      * @return           True if out of bounds error | False otherwise
      */
+private:
     bool printCharacter(char character);
 
 protected:
     bool coupled = false;
-private:
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
+private:
     bool mInverted = false;
     const bool kUsingBacklight;
+protected:
     const bool kUsingHardwareSPI;
+private:
     uint8_t mX_cursor, mY_cursor;
     const LcdFont *mCurrentFont;
 };
