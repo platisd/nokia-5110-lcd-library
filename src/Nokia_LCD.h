@@ -232,11 +232,21 @@ public:
     void setDefaultFont();
 
     /**
-     * couple()/uncouple() is useful for improving speed and 
-     * for accessing two or more displays on the same pins
-     * (but different CE pins)
+     * couple()/uncouple() is useful for
+     * a) accessing two or more displays on the same pins (but different CE pins)
+     *     aa) displaying the same output on several displays the same time
+     *            lcd1.couple(); lcd2.couple(); lcd.print("Hi there");
+     *     ab) easier switching output from on to the other display when developing
+     *            // lcd1.couple() - not here today, but maybe tomorrow
+     *            lcd2.couple() // maybe comment tomorrow
+     *            lcd.print(5); lcd.print("x ");
+     *            lcd.setInverted(true); lcd.print(number); lcd.setInverted(false);
+     *            lcd.print(" "); print_fwVersion(); lcd.println();
+     *     ac) reducing electrical interference in case it happens that one CE line
+     *         overspeaks to the other CE line
+     * b) improving speed by ~10% (16 instead of 18 digitalWrite() per data/command byte)
      */
-    void couple(bool yes = true);
+    void couple();
     void uncouple();
 
 private:
