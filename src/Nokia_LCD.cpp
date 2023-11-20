@@ -112,14 +112,11 @@ void Nokia_LCD::begin() {
     sendCommand(0x0C);  // Set display control, normal mode.
 }
 
-void Nokia_LCD::couple(bool yes) {
-    if (yes && !coupled) {
+void Nokia_LCD::couple() {
+    if (!coupled) {
         digitalWrite(kCe_pin, LOW);
+        coupled = true;
     }
-    else if (!yes && coupled) {
-        digitalWrite(kCe_pin, HIGH);
-    }
-    coupled = yes;
 }
 void Nokia_LCD::uncouple() {
     if (coupled) {
@@ -307,8 +304,9 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data,
     digitalWrite(kDc_pin, is_data);
 
     // Send the byte
-    if (!coupled)
+    if (!coupled) {
         digitalWrite(kCe_pin, LOW);
+    }
     if (kUsingHardwareSPI) {
         constexpr uint32_t kSPiClockSpeed{F_CPU / 4U};
         SPI.beginTransaction(SPISettings{kSPiClockSpeed, MSBFIRST, SPI_MODE0});
@@ -318,8 +316,9 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data,
         shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
     }
 
-    if (!coupled)
+    if (!coupled) {
         digitalWrite(kCe_pin, HIGH);
+    }
 
     // If we just sent the command, there was no out-of-bounds error
     // and we don't have to calculate the new cursor position
