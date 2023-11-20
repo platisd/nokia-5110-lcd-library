@@ -244,6 +244,9 @@ public:
      *            lcd.print(" "); print_fwVersion(); lcd.println();
      *     ac) reducing electrical interference in case it happens that one CE line
      *         overspeaks to the other CE line
+     *     ad) manage CE pin by different code
+     *            lcd.couple(); // once and forever, now someone else has to manage
+     *                          // CE pin
      * b) improving speed by ~10% (16 instead of 18 digitalWrite() per data/command byte)
      */
     void couple();
