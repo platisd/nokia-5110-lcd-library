@@ -113,16 +113,12 @@ void Nokia_LCD::begin() {
 }
 
 void Nokia_LCD::couple() {
-    if (!coupled) {
-        digitalWrite(kCe_pin, LOW);
-        coupled = true;
-    }
+    digitalWrite(kCe_pin, LOW);
+    mCoupled = true;
 }
 void Nokia_LCD::uncouple() {
-    if (coupled) {
-        digitalWrite(kCe_pin, HIGH);
-        coupled = false;
-    }
+    digitalWrite(kCe_pin, HIGH);
+    mCoupled = false;
 }
 
 void Nokia_LCD::setContrast(uint8_t contrast) {
@@ -304,7 +300,7 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data,
     digitalWrite(kDc_pin, is_data);
 
     // Send the byte
-    if (!coupled) {
+    if (!mCoupled) {
         digitalWrite(kCe_pin, LOW);
     }
     if (kUsingHardwareSPI) {
@@ -316,7 +312,7 @@ bool Nokia_LCD::send(const unsigned char lcd_byte, const bool is_data,
         shiftOut(kDin_pin, kClk_pin, MSBFIRST, lcd_byte);
     }
 
-    if (!coupled) {
+    if (!mCoupled) {
         digitalWrite(kCe_pin, HIGH);
     }
 

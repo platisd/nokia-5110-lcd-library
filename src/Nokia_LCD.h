@@ -232,22 +232,11 @@ public:
     void setDefaultFont();
 
     /**
-     * couple()/uncouple() is useful for
-     * a) accessing two or more displays on the same pins (but different CE pins)
-     *     aa) displaying the same output on several displays the same time
-     *            lcd1.couple(); lcd2.couple(); lcd.print("Hi there");
-     *     ab) easier switching output from on to the other display when developing
-     *            // lcd1.couple() - not here today, but maybe tomorrow
-     *            lcd2.couple() // maybe comment tomorrow
-     *            lcd.print(5); lcd.print("x ");
-     *            lcd.setInverted(true); lcd.print(number); lcd.setInverted(false);
-     *            lcd.print(" "); print_fwVersion(); lcd.println();
-     *     ac) reducing electrical interference in case it happens that one CE line
-     *         overspeaks to the other CE line
-     *     ad) manage CE pin by different code
-     *            lcd.couple(); // once and forever, now someone else has to manage
-     *                          // CE pin
-     * b) improving speed by ~10% (16 instead of 18 digitalWrite() per data/command byte)
+     * @brief Allow the specific display instance to be controlled by another
+     * instance, which has been initialized with the same pins except the CE one. 
+     * Enables having multiple displays on the same data, clock and reset pins.
+     * @example Allow `lcd1` and `lcd2 to both display the same as `lcd3`
+     * @example `lcd1.couple(); lcd2.couple(); lcd3.print("Hi there");`
      */
     void couple();
     void uncouple();
@@ -296,9 +285,7 @@ private:
      */
     bool printCharacter(char character);
 
-protected:
-    bool coupled = false;
-private:
+    bool mCoupled = false;
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
     bool mInverted = false;
     const bool kUsingBacklight;
