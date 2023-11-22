@@ -10,18 +10,21 @@ jobs:
         board:
           - platform: arduino:avr
             name: uno
+            version: 1.8.6
             url: http://downloads.arduino.cc/packages/package_index.json
           - platform: ATTinyCore:avr
             name: attinyx5
+            version: 1.4.1
             url: http://drazzy.com/package_drazzy.com_index.json
 
     steps:
       - uses: actions/checkout@v2
       - name: Compile library examples
-        uses: arduino/compile-sketches@main
+        uses: arduino/compile-sketches@v1.1.0
         with:
           platforms: |
             - name: ${{ matrix.board.platform }}
+              version: ${{ matrix.board.version }}
               source-url: ${{ matrix.board.url }}
           fqbn: ${{ matrix.board.platform }}:${{ matrix.board.name }}
           cli-compile-flags: |
@@ -29,3 +32,4 @@ jobs:
             - "compiler.cpp.extra_flags=-Werror"
             - "--build-property"
             - "compiler.cpp.extra_flags=-Wno-unused-variable"
+          cli-version: 0.33.1
