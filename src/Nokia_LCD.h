@@ -231,6 +231,16 @@ public:
      */
     void setDefaultFont();
 
+    /**
+     * @brief Allow the specific display instance to be controlled by another
+     * instance, which has been initialized with the same pins except the CE one. 
+     * Enables having multiple displays on the same data, clock and reset pins.
+     * @example Allow `lcd1` and `lcd2 to both display the same as `lcd3`
+     * @example `lcd1.couple(); lcd2.couple(); lcd3.print("Hi there");`
+     */
+    void couple();
+    void uncouple();
+
 private:
     /**
      * Sends the specified byte to the LCD via software SPI as data or a
@@ -275,6 +285,7 @@ private:
      */
     bool printCharacter(char character);
 
+    bool mCoupled = false;
     const uint8_t kClk_pin, kDin_pin, kDc_pin, kCe_pin, kRst_pin, kBl_pin;
     bool mInverted = false;
     const bool kUsingBacklight;
