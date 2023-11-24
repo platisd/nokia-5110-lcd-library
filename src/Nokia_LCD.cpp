@@ -379,6 +379,10 @@ bool Nokia_LCD::print(double number, unsigned short decimals) {
         }
     }
 
+    if (fractional == 0) {
+        // If the fractional part is 0, then we have already printed it
+        return out_of_bounds;
+    }
     // prints the rest of the fractional
     return (out_of_bounds || print(fractional));
 }
