@@ -2,8 +2,12 @@
 #if __has_include(<avr/pgmspace.h>)
 #include <avr/pgmspace.h>
 #else
+#ifndef PROGMEM
 #define PROGMEM
+#endif
+#ifndef pgm_read_byte_near
 #define pgm_read_byte_near *
+#endif
 #endif
 #include <SPI.h>
 #include <math.h>
